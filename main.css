@@ -1,0 +1,39 @@
+/* Delete this after */
+body {
+    font-family: Inter, sans-serif;
+	background-color: #1a9ce2;
+	color: #fff;
+}
+
+.page-title {
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 40px;
+    margin-bottom: 12px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 90px;
+}
+
+.content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 100px 40px 40px;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px;
+}
