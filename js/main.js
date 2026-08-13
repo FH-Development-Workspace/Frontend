@@ -421,9 +421,11 @@ FHD.initAccordion();
   }, { passive: true });
 })();
 
-// ── Form Handling (Frontend Only) ─────────────────────────
+// ── Form Handling (skip API-wired forms) ───────────────────
 (function initForms() {
+  const API_FORMS = new Set(['login', 'register', 'contact', 'support', 'forgot', 'reset']);
   $$('form[data-form]').forEach(form => {
+    if (API_FORMS.has(form.dataset.form)) return;
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const type = form.dataset.form;
@@ -550,4 +552,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.FHD?.initPage) FHD.initPage();
 });
 
-console.log('%c FH Development ', 'background:#2563EB;color:white;font-weight:bold;border-radius:4px;padding:2px 8px;', '| API Connected');
+console.log('%c FH Development ', 'background:#2563EB;color:white;font-weight:bold;border-radius:4px;padding:2px 8px;', '| Static site on GitHub Pages · API: ' + (window.FHD_CONFIG?.API_BASE || ''));

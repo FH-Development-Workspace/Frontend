@@ -53,22 +53,27 @@ window.FHD = window.FHD || {};
     getSystemStatus: () => request('/system/status'),
     getHealth: () => request('/health'),
 
-    // Optional CMS endpoints — graceful fallback when not yet on backend
-    tryGet: async (path) => {
+    // Optional CMS endpoints — skipped when disabled in config or 404 on backend
+    tryGet: async (path, key) => {
+      const apiKey = key || path.replace(/^\//, '');
+      if (FHD_CONFIG.OPTIONAL_APIS && FHD_CONFIG.OPTIONAL_APIS[apiKey] === false) return null;
       try { return await request(path); } catch (e) { if (e.status === 404) return null; throw e; }
     },
-    getPress: () => FHD.api.tryGet('/press'),
-    getMedia: () => FHD.api.tryGet('/media'),
-    getSponsorships: () => FHD.api.tryGet('/sponsorships'),
-    getCommunity: () => FHD.api.tryGet('/community'),
-    getEvents: () => FHD.api.tryGet('/events'),
-    getDownloads: () => FHD.api.tryGet('/downloads'),
-    getFeatures: () => FHD.api.tryGet('/features'),
+    getPress: () => FHD.api.tryGet('/press', 'press'),
+    getMedia: () => FHD.api.tryGet('/media', 'media'),
+    getSponsorships: () => FHD.api.tryGet('/sponsorships', 'sponsorships'),
+    getCommunity: () => FHD.api.tryGet('/community', 'community'),
+    getEvents: () => FHD.api.tryGet('/events', 'events'),
+    getDownloads: () => FHD.api.tryGet('/downloads', 'downloads'),
+    getFeatures: () => FHD.api.tryGet('/features', 'features'),
 
     submitContact: (body) => request('/contact', { method: 'POST', body }),
     createSupportTicket: (body) => request('/support', { method: 'POST', body }),
     login: (body) => request('/auth/login', { method: 'POST', body }),
     register: (body) => request('/auth/register', { method: 'POST', body }),
+    forgotPassword: (body) => request('/auth/forgot-password', { method: 'POST', body }),
+    resetPassword: (body) => request('/auth/reset-password', { method: 'POST', body }),
+    verifyEmail: (token) => request('/auth/verify-email', { method: 'POST', body: { token } }),
     getMe: () => request('/auth/me'),
   };
 

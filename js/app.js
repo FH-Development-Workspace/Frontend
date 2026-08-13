@@ -807,6 +807,8 @@ window.FHD = window.FHD || {};
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('[type="submit"]');
+        const orig = btn?.textContent;
+        if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
         try {
           const fd = new FormData(form);
           const data = await api().login({ email: fd.get('email'), password: fd.get('password') });
@@ -816,6 +818,8 @@ window.FHD = window.FHD || {};
           setTimeout(() => { window.location.href = FHD.pageUrl('index.html'); }, 1000);
         } catch (err) {
           FHD.toast(err.message || 'Invalid credentials', 'error');
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
         }
       });
     },
@@ -825,6 +829,9 @@ window.FHD = window.FHD || {};
       if (!form) return;
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const btn = form.querySelector('[type="submit"]');
+        const orig = btn?.textContent;
+        if (btn) { btn.disabled = true; btn.textContent = 'Creating...'; }
         try {
           const fd = new FormData(form);
           await api().register(Object.fromEntries(fd.entries()));
@@ -832,8 +839,81 @@ window.FHD = window.FHD || {};
           setTimeout(() => { window.location.href = 'verify-email.html'; }, 1500);
         } catch (err) {
           FHD.toast(err.message || 'Registration failed', 'error');
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
         }
       });
+    },
+
+    async authForgot() {
+      const form = document.querySelector('[data-form="forgot"]');
+      if (!form) return;
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('[type="submit"]');
+        const orig = btn?.textContent;
+        if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+        try {
+          const fd = new FormData(form);
+          await api().forgotPassword({ email: fd.get('email') });
+          FHD.toast('Reset link sent! Check your inbox.', 'success');
+          form.reset();
+        } catch (err) {
+          FHD.toast(err.message || 'Could not send reset link', 'error');
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
+        }
+      });
+    },
+
+    async authReset() {
+      const form = document.querySelector('[data-form="reset"]');
+      if (!form) return;
+      const token = FHD.getQueryParam('token');
+      if (!token) {
+        FHD.toast('Invalid or missing reset token.', 'error');
+        return;
+      }
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const password = fd.get('password');
+        const confirm = fd.get('confirmPassword');
+        if (password !== confirm) {
+          FHD.toast('Passwords do not match.', 'error');
+          return;
+        }
+        const btn = form.querySelector('[type="submit"]');
+        const orig = btn?.textContent;
+        if (btn) { btn.disabled = true; btn.textContent = 'Updating...'; }
+        try {
+          await api().resetPassword({ token, password });
+          FHD.toast('Password updated! You can now sign in.', 'success');
+          setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        } catch (err) {
+          FHD.toast(err.message || 'Could not reset password', 'error');
+        } finally {
+          if (btn) { btn.disabled = false; btn.textContent = orig; }
+        }
+      });
+    },
+
+    async authVerify() {
+      const msg = document.getElementById('verify-message');
+      const token = FHD.getQueryParam('token');
+      if (!token) {
+        if (msg) msg.textContent = 'Check your inbox for a verification link, then return here to sign in.';
+        return;
+      }
+      if (msg) msg.textContent = 'Verifying your email...';
+      try {
+        await api().verifyEmail(token);
+        if (msg) msg.textContent = 'Email verified successfully! You can now sign in.';
+        FHD.toast('Email verified!', 'success');
+      } catch (err) {
+        if (msg) msg.textContent = err.message || 'Verification failed. The link may have expired.';
+        FHD.toast(err.message || 'Verification failed', 'error');
+      }
     },
   };
 

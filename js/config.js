@@ -11,10 +11,23 @@ window.FHD_CONFIG = {
   FAVICON_URL: 'https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png',
 
   /** Set to true to send all visitors to the maintenance page. */
-  MAINTENANCE_MODE: false,
+  MAINTENANCE_MODE: true,
   MAINTENANCE_MESSAGE: 'We are currently performing scheduled maintenance to upgrade our infrastructure. We expect to be back online shortly.',
   /** Append ?preview=1 to any URL to bypass maintenance (saved for the session). */
   MAINTENANCE_ALLOW_PREVIEW: true,
+
+  /**
+   * Optional CMS routes on the backend. Set to true when the endpoint exists.
+   * While false, the frontend skips the request (no console 404 on GitHub Pages).
+   */
+  OPTIONAL_APIS: {
+    features: false,
+    press: false,
+    community: false,
+    events: false,
+    sponsorships: false,
+    downloads: false,
+  },
 };
 
 window.FHD = window.FHD || {};

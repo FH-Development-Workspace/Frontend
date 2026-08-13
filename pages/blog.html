@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Latest news, tutorials, and updates from FH Developments." />
-  <title>Blog ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â FH Developments</title>
+  <title>Blog — FH Developments</title>
   <link rel="icon" href="https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={theme:{extend:{colors:{primary:'#2563EB',bright:'#3B82F6',sky:'#0EA5E9'},fontFamily:{display:['Sora','sans-serif'],body:['Inter','sans-serif'],mono:['JetBrains Mono','monospace']}}}}</script>
@@ -112,7 +112,7 @@
     <div class="gradient-hr mb-8"></div>
 
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p class="text-[#475569] text-sm">Ãƒâ€šÃ‚Â© 2026 FH Developments. All rights reserved.</p>
+      <p class="text-[#475569] text-sm">© 2026 FH Developments. All rights reserved.</p>
       <div class="flex items-center gap-2">
         <div class="pulse-dot"></div>
         <span class="text-[#475569] text-sm font-mono"><a href="https://status.fh-development.xyz/" target="_blank" rel="noopener" class="hover:text-white transition-colors">System Status</a></span>
@@ -124,7 +124,7 @@
 <div id="cookie-banner" role="alert">
   <div class="bg-white border border-[#E2E8F0] rounded-2xl shadow-xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4">
     <div class="flex-1">
-      <p class="font-display font-semibold text-[#0F172A] text-sm mb-1">We use cookies ÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Âª</p>
+      <p class="font-display font-semibold text-[#0F172A] text-sm mb-1">We use cookies</p>
       <p class="text-[#64748B] text-xs leading-relaxed">We use cookies to improve your experience. By continuing, you agree to our <a href="https://legal.fh-development.xyz/cookies.html" target="_blank" rel="noopener" class="text-[#2563EB] underline">Cookie Policy</a>.</p>
     </div>
     <div class="flex items-center gap-2 flex-shrink-0">
@@ -138,28 +138,6 @@
   <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>
 </button>
 
-<script>
-const posts = [
-  { cat:'Tutorial', catClass:'text-[#2563EB] bg-[#EFF6FF]', date:'Aug 12, 2026', title:'Optimizing DataStores for Scale', desc:'Learn how to prevent throttling and handle massive player data using SessionLocking and retry queues.', emoji:'ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¾' },
-  { cat:'UI/UX', catClass:'text-[#16A34A] bg-[#F0FDF4]', date:'Aug 8, 2026', title:'Responsive UI in Roblox Studio', desc:'A deep dive into AutoScale, UIListLayouts, and making interfaces look great on all devices.', emoji:'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â¨' },
-  { cat:'Open Source', catClass:'text-[#EA580C] bg-[#FFF7ED]', date:'Aug 3, 2026', title:'Free Admin Commands Module', desc:'We are open-sourcing our lightweight admin commands module for the entire Roblox community.', emoji:'ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¦' },
-  { cat:'Announcement', catClass:'text-[#7C3AED] bg-[#FAF5FF]', date:'Jul 28, 2026', title:'Introducing FPS Framework v2.0', desc:'A complete ground-up rewrite with client-side prediction and improved netcode.', emoji:'ÃƒÂ°Ã…Â¸Ã…Â½Ã‚Â®' },
-  { cat:'Tutorial', catClass:'text-[#2563EB] bg-[#EFF6FF]', date:'Jul 22, 2026', title:'Securing Your Roblox Game', desc:'A practical checklist for protecting your game from exploits, RemoteEvent abuse, and injection.', emoji:'ÃƒÂ°Ã…Â¸Ã¢â‚¬ÂºÃ‚Â¡ÃƒÂ¯Ã‚Â¸Ã‚Â' },
-  { cat:'Tutorial', catClass:'text-[#2563EB] bg-[#EFF6FF]', date:'Jul 15, 2026', title:'Building Modular Luau Systems', desc:'How we structure all our internal Luau modules using a clean require-based architecture.', emoji:'ÃƒÂ¢Ã…Â¡Ã¢â€žÂ¢ÃƒÂ¯Ã‚Â¸Ã‚Â' },
-];
-document.getElementById('blog-grid').innerHTML = posts.map((p,i) => `
-<article class="group cursor-pointer reveal${i?(' reveal-delay-'+Math.min(i,3)):''}">
-  <div class="aspect-[16/9] rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] mb-5 flex items-center justify-center text-5xl group-hover:scale-[1.02] transition-transform duration-500">${p.emoji}</div>
-  <div class="flex items-center gap-2 mb-3">
-    <span class="text-xs font-semibold ${p.catClass} px-2.5 py-1 rounded-md">${p.cat}</span>
-    <span class="text-xs text-[#64748B]">${p.date}</span>
-  </div>
-  <h3 class="font-display font-bold text-xl mb-2 group-hover:text-[#2563EB] transition-colors">${p.title}</h3>
-  <p class="text-[#64748B] text-sm leading-relaxed">${p.desc}</p>
-  <div class="flex items-center gap-1 text-[#2563EB] text-sm font-semibold mt-4">Read More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></div>
-</article>
-`).join('');
-</script>
 <script src="../js/config.js"></script>
 <script src="../js/api.js"></script>
 <script src="../js/nav.js"></script>
