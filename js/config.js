@@ -1,6 +1,21 @@
 'use strict';
 
-window.FHD_CONFIG = {
+window.FHD = window.FHD || {};
+
+// Sync maintenance toggle from js/maintenance.js (loaded before this file on every page).
+(function syncMaintenanceConfig() {
+  window.FHD_CONFIG = window.FHD_CONFIG || {};
+  var m = window.FHD_MAINTENANCE || {};
+  if (typeof m.ENABLED === 'boolean') {
+    FHD_CONFIG.MAINTENANCE_MODE = m.ENABLED;
+  }
+  if (m.MESSAGE) FHD_CONFIG.MAINTENANCE_MESSAGE = m.MESSAGE;
+  if (typeof m.ALLOW_PREVIEW === 'boolean') {
+    FHD_CONFIG.MAINTENANCE_ALLOW_PREVIEW = m.ALLOW_PREVIEW;
+  }
+})();
+
+window.FHD_CONFIG = Object.assign({
   API_BASE: 'https://backend-mczn.onrender.com/api/v1',
   SITE_NAME: 'FH Development',
   SITE_URL: 'https://fh-development.xyz',
@@ -9,17 +24,9 @@ window.FHD_CONFIG = {
   DOCS_URL: 'https://docs.fh-development.xyz',
   LOGO_URL: 'https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png',
   FAVICON_URL: 'https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png',
-
-  /** Set to true to send all visitors to the maintenance page. */
-  MAINTENANCE_MODE: true,
-  MAINTENANCE_MESSAGE: 'We are currently performing scheduled maintenance to upgrade our infrastructure. We expect to be back online shortly.',
-  /** Append ?preview=1 to any URL to bypass maintenance (saved for the session). */
+  MAINTENANCE_MODE: false,
+  MAINTENANCE_MESSAGE: 'We are currently performing scheduled maintenance. Please check back shortly.',
   MAINTENANCE_ALLOW_PREVIEW: true,
-
-  /**
-   * Optional CMS routes on the backend. Set to true when the endpoint exists.
-   * While false, the frontend skips the request (no console 404 on GitHub Pages).
-   */
   OPTIONAL_APIS: {
     features: false,
     press: false,
@@ -28,9 +35,7 @@ window.FHD_CONFIG = {
     sponsorships: false,
     downloads: false,
   },
-};
-
-window.FHD = window.FHD || {};
+}, window.FHD_CONFIG);
 
 FHD.getPathPrefix = function () {
   const path = window.location.pathname.replace(/\\/g, '/');
@@ -96,32 +101,3 @@ FHD.emptyHtml = function (msg) {
     <p class="text-[#64748B] font-medium">${FHD.escapeHtml(msg || 'No items found.')}</p>
   </div>`;
 };
-
-FHD.maintenanceUrl = function () {
-  const path = window.location.pathname.replace(/\\/g, '/');
-  if (path.includes('/pages/') || path.includes('/auth/')) return 'maintenance.html';
-  return 'pages/maintenance.html';
-};
-
-FHD.checkMaintenance = function () {
-  if (!FHD_CONFIG.MAINTENANCE_MODE) return;
-
-  const path = window.location.pathname.replace(/\\/g, '/').toLowerCase();
-  if (path.includes('maintenance.html')) return;
-
-  if (FHD_CONFIG.MAINTENANCE_ALLOW_PREVIEW) {
-    if (new URLSearchParams(window.location.search).get('preview') === '1') {
-      try { sessionStorage.setItem('fhd-maintenance-bypass', '1'); } catch (_) {}
-    }
-    try {
-      if (sessionStorage.getItem('fhd-maintenance-bypass') === '1') return;
-    } catch (_) {}
-  }
-
-  const target = FHD.maintenanceUrl();
-  if (!path.endsWith('/maintenance.html') && !path.endsWith('maintenance.html')) {
-    window.location.replace(target);
-  }
-};
-
-FHD.checkMaintenance();

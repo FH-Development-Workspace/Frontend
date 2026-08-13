@@ -9,7 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config={theme:{extend:{colors:{primary:'#2563EB',bright:'#3B82F6',sky:'#0EA5E9'},fontFamily:{display:['Sora','sans-serif'],body:['Inter','sans-serif']}}}}</script>
   <link rel="stylesheet" href="../css/styles.css" />
-  <script src="../js/config.js"></script>
+  <script src="../js/maintenance.js"></script>
 </head>
 <body class="bg-[#F8FAFC] font-body text-slate antialiased min-h-screen flex flex-col">
 
@@ -55,9 +55,9 @@
 <script>
   (function () {
     var msg = document.getElementById('maintenance-message');
-    if (msg && window.FHD_CONFIG && FHD_CONFIG.MAINTENANCE_MESSAGE) {
-      msg.textContent = FHD_CONFIG.MAINTENANCE_MESSAGE;
-    }
+    var text = (window.FHD_MAINTENANCE && FHD_MAINTENANCE.MESSAGE)
+      || 'We are currently performing scheduled maintenance. Please check back shortly.';
+    if (msg) msg.textContent = text;
   })();
 </script>
 </body>
