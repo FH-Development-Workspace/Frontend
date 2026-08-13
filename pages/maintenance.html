@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Under Maintenance — FH Development</title>
+  <link rel="icon" href="https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#2563EB',bright:'#3B82F6',sky:'#0EA5E9'},fontFamily:{display:['Sora','sans-serif'],body:['Inter','sans-serif']}}}}</script>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/config.js"></script>
+</head>
+<body class="bg-[#F8FAFC] font-body text-slate antialiased min-h-screen flex flex-col">
+
+<main class="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center">
+  <a href="https://fh-development.xyz" class="mb-10 inline-block">
+    <img src="https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png" alt="FH Development" class="h-14 w-auto object-contain mx-auto" />
+  </a>
+
+  <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-sky text-white flex items-center justify-center mx-auto mb-8 shadow-lg shadow-primary/25">
+    <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+    </svg>
+  </div>
+
+  <h1 class="font-display font-black text-4xl sm:text-5xl text-[#0F172A] mb-4 tracking-tight">We'll be back soon</h1>
+  <p class="text-lg text-[#475569] mb-4 font-medium">Scheduled maintenance in progress</p>
+  <p id="maintenance-message" class="text-[#64748B] mb-10 max-w-md mx-auto leading-relaxed">
+    We are currently performing scheduled maintenance. Please check back shortly.
+  </p>
+
+  <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+    <a href="https://status.fh-development.xyz/" target="_blank" rel="noopener" class="btn-primary px-8 py-3 inline-flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      System Status
+    </a>
+    <a href="https://discord.gg/" target="_blank" rel="noopener" class="btn-secondary px-8 py-3 inline-flex items-center gap-2">
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.08.114 18.1.134 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Discord Updates
+    </a>
+  </div>
+
+  <div class="rounded-2xl border border-[#E2E8F0] bg-white px-6 py-4 shadow-sm">
+    <iframe src="https://status.fh-development.xyz/badge?theme=light" width="250" height="30" frameborder="0" scrolling="no" title="Service status badge"></iframe>
+  </div>
+</main>
+
+<footer class="py-8 text-center text-sm text-[#64748B] border-t border-[#E2E8F0] bg-white">
+  <p>FH Development 2026 © All Rights Reserved</p>
+  <p class="mt-1">Made with ❤️ in Lincolnshire and New Delhi</p>
+</footer>
+
+<script>
+  (function () {
+    var msg = document.getElementById('maintenance-message');
+    if (msg && window.FHD_CONFIG && FHD_CONFIG.MAINTENANCE_MESSAGE) {
+      msg.textContent = FHD_CONFIG.MAINTENANCE_MESSAGE;
+    }
+  })();
+</script>
+</body>
+</html>
