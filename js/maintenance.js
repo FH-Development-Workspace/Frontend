@@ -10,7 +10,7 @@
 window.FHD_MAINTENANCE = {
   ENABLED: true,
   MESSAGE: 'We are currently performing scheduled maintenance to upgrade our infrastructure. We expect to be back online shortly.',
-  ALLOW_PREVIEW: true,
+  ALLOW_PREVIEW: false,
 
   /** Team preview password (change this). */
   PREVIEW_PASSWORD: 'fh-preview-2026',
