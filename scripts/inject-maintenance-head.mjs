@@ -5,8 +5,10 @@ import { fileURLToPath } from 'url';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SNIPPET_ROOT = `  <script src="js/maintenance.js"></script>
+  <script src="js/maintenance-preview.js"></script>
   <script src="js/maintenance-check.js"></script>`;
 const SNIPPET_NESTED = `  <script src="../js/maintenance.js"></script>
+  <script src="../js/maintenance-preview.js"></script>
   <script src="../js/maintenance-check.js"></script>`;
 
 function walk(dir, out = []) {
@@ -31,7 +33,18 @@ let updated = 0;
 for (const fp of walk(ROOT)) {
   if (isExcluded(fp)) continue;
   let html = fs.readFileSync(fp, 'utf8');
-  if (html.includes('maintenance-check.js')) continue;
+  if (html.includes('maintenance-check.js')) {
+    if (!html.includes('maintenance-preview.js')) {
+      html = html.replace(
+        /(<script src="(\.\.\/)?js\/maintenance\.js"><\/script>\s*\n)/,
+        '$1  <script src="$2js/maintenance-preview.js"></script>\n'
+      );
+      fs.writeFileSync(fp, html, 'utf8');
+      updated++;
+      console.log('added preview:', path.relative(ROOT, fp));
+    }
+    continue;
+  }
 
   const nested = fp.includes(path.sep + 'pages' + path.sep) || fp.includes(path.sep + 'auth' + path.sep);
   const snippet = nested ? SNIPPET_NESTED : SNIPPET_ROOT;
