@@ -8,9 +8,9 @@
  * Change PREVIEW_PASSWORD before each deploy — it is visible in source (staging gate only).
  */
 window.FHD_MAINTENANCE = {
-  ENABLED: true,
+  ENABLED: false,
   MESSAGE: 'We are currently performing scheduled maintenance to upgrade our infrastructure. We expect to be back online shortly.',
-  ALLOW_PREVIEW: false,
+  ALLOW_PREVIEW: true,
 
   /** Team preview password (change this). */
   PREVIEW_PASSWORD: 'fh-preview-2026',
