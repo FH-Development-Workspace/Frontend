@@ -16,7 +16,7 @@ window.FHD = window.FHD || {};
 })();
 
 window.FHD_CONFIG = Object.assign({
-  API_BASE: 'https://backend-mczn.onrender.com/api/v1',
+  API_BASE: 'http://localhost:5000/api/v1',
   SITE_NAME: 'FH Development',
   SITE_URL: 'https://fh-development.xyz',
   LEGAL_URL: 'https://legal.fh-development.xyz',

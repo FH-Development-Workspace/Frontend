@@ -8,14 +8,11 @@
  * Change PREVIEW_PASSWORD before each deploy — it is visible in source (staging gate only).
  */
 window.FHD_MAINTENANCE = {
-  ENABLED: true,
+  ENABLED: false,
   MESSAGE: 'We are currently performing scheduled maintenance to upgrade our infrastructure. We expect to be back online shortly.',
   ALLOW_PREVIEW: true,
 
   /** Team preview password (change this). */
   PREVIEW_PASSWORD: 'fh-preview-2026',
 
-  /** ClearDev client portal — hosting & staging management. */
-  CLEARDEV_PORTAL_URL: 'https://www.cleardev.com/cleardev-client-login/',
-  CLEARDEV_LABEL: 'ClearDev Client Portal',
 };

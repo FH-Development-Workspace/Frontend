@@ -75,6 +75,10 @@ window.FHD = window.FHD || {};
     resetPassword: (body) => request('/auth/reset-password', { method: 'POST', body }),
     verifyEmail: (token) => request('/auth/verify-email', { method: 'POST', body: { token } }),
     getMe: () => request('/auth/me'),
+
+    getHostingPlans: () => request('/hosting/plans'),
+    requestHosting: (body) => request('/hosting/request', { method: 'POST', body }),
+    getMyHosting: () => request('/hosting/me'),
   };
 
   FHD.api.unwrapList = function (data) {

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hosting | FH Developments</title>
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Replace with actual stylesheet -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #111; color: #fff; margin: 0; padding: 0; }
+        .hero { text-align: center; padding: 50px 20px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { color: #aaa; font-size: 1.2rem; margin-bottom: 30px; }
+        .plans { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
+        .plan-card { background: #222; border-radius: 12px; padding: 30px; width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: left; }
+        .plan-card.recommended { border: 2px solid #4f46e5; }
+        .plan-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; }
+        .plan-price { font-size: 2rem; color: #4f46e5; margin-bottom: 20px; }
+        .plan-features { list-style: none; padding: 0; margin-bottom: 30px; }
+        .plan-features li { margin-bottom: 10px; color: #ddd; }
+        .plan-features li::before { content: '✓'; color: #4f46e5; margin-right: 10px; }
+        .btn { display: block; width: 100%; padding: 12px; text-align: center; background: #4f46e5; color: white; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 1.1rem; }
+        .btn:hover { background: #4338ca; }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Code Hosting Plans</h1>
+        <p>Secure, high-performance backend code hosting for Python and JavaScript.</p>
+        <p style="font-size: 1rem; color: #888;">Please email <a href="mailto:hosting@fh-development.xyz" style="color: #4f46e5;">hosting@fh-development.xyz</a> for a quote or to get a server hosted.</p>
+    </header>
+
+    <div class="plans" id="plans-container">
+        <!-- Plans will be loaded here via API -->
+        <p>Loading plans...</p>
+    </div>
+
+    <script>
+        async function loadPlans() {
+            try {
+                // Adjust API base URL according to your environment config
+                const res = await fetch('http://localhost:5000/api/hosting/plans');
+                const result = await res.json();
+                
+                const container = document.getElementById('plans-container');
+                container.innerHTML = '';
+                
+                if (result.success && result.data.length > 0) {
+                    result.data.forEach(plan => {
+                        const card = document.createElement('div');
+                        card.className = 'plan-card ' + (plan.recommended ? 'recommended' : '');
+                        card.innerHTML = `
+                            ${plan.recommended ? '<div style="color: #4f46e5; font-weight: bold; margin-bottom: 10px; text-transform: uppercase; font-size: 0.8rem;">Recommended</div>' : ''}
+                            <div class="plan-name">${plan.name}</div>
+                            <div class="plan-price">£${plan.priceGBP.toFixed(2)}<span style="font-size:1rem;color:#888">/month</span></div>
+                            <p style="color: #aaa; margin-bottom: 20px; font-size: 0.9rem;">${plan.description}</p>
+                            <ul class="plan-features">
+                                <li>${plan.ramMB >= 1024 ? plan.ramMB/1024 + 'GB' : plan.ramMB + 'MB'} RAM</li>
+                                <li>${plan.cpuPercent}% CPU</li>
+                                <li>${plan.storageGB}GB Storage</li>
+                                <li>${plan.databaseLimit} Database${plan.databaseLimit > 1 ? 's' : ''}</li>
+                                <li>${plan.backupLimit} Backup${plan.backupLimit > 1 ? 's' : ''}</li>
+                                ${plan.modMailAvailable ? '<li>Mod Mail available</li>' : ''}
+                            </ul>
+                            <button class="btn" onclick="requestHosting('${plan.id}')">Request Hosting</button>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    container.innerHTML = '<p>No hosting plans available right now.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching plans:', error);
+                document.getElementById('plans-container').innerHTML = '<p>Error loading plans. Please try again later.</p>';
+            }
+        }
+
+        async function requestHosting(planId) {
+            // Simplified request flow without payment
+            const email = prompt("Enter your email to request this hosting plan:");
+            if (!email) return;
+
+            try {
+                const res = await fetch('http://localhost:5000/api/hosting/request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ planId, email })
+                });
+                
+                const result = await res.json();
+                if (result.success) {
+                    alert('Hosting requested successfully! We will contact you at ' + email);
+                } else {
+                    alert('Failed to request hosting: ' + (result.message || result.error));
+                }
+            } catch (error) {
+                console.error(error);
+                alert('An error occurred while requesting hosting.');
+            }
+        }
+
+        loadPlans();
+    </script>
+</body>
+</html>
