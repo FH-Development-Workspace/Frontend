@@ -83,12 +83,8 @@
         var text = (window.FHD_MAINTENANCE && FHD_MAINTENANCE.MESSAGE)
           || 'We are currently performing scheduled maintenance. Please check back shortly.';
         if (msg) msg.textContent = text;
-        var link = document.getElementById('fhd-cleardev-link');
+        var link = document.getElementById('fhd-team-preview-btn');
         var c = window.FHD_MAINTENANCE || {};
-        if (link && c.CLEARDEV_PORTAL_URL) {
-          link.href = c.CLEARDEV_PORTAL_URL;
-          if (c.CLEARDEV_LABEL) link.textContent = c.CLEARDEV_LABEL;
-        }
       })();
   </script>
 </body>
