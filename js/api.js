@@ -5,21 +5,48 @@ window.FHD = window.FHD || {};
 (function (FHD) {
   const BASE = window.FHD_CONFIG.API_BASE;
 
-  async function request(path, options) {
+  async function request(path, options = {}, allowRefresh = true) {
     const url = path.startsWith('http') ? path : BASE + path;
-    const headers = { Accept: 'application/json', ...(options?.headers || {}) };
-    if (options?.body && !(options.body instanceof FormData)) {
+    const originalOptions = { ...options };
+    const headers = { Accept: 'application/json', ...(options.headers || {}) };
+    if (options.body && !(options.body instanceof FormData)) {
       headers['Content-Type'] = 'application/json';
       options.body = JSON.stringify(options.body);
     }
     const token = localStorage.getItem('fhd-token');
     if (token) headers.Authorization = 'Bearer ' + token;
 
-    const res = await fetch(url, { ...options, headers });
+    let res;
+    try {
+      res = await fetch(url, { ...options, headers, credentials: 'include' });
+    } catch (networkError) {
+      const fallbackBase = FHD_CONFIG.API_FALLBACK_BASE;
+      if (!fallbackBase || url.startsWith(fallbackBase)) throw networkError;
+      const fallbackUrl = path.startsWith('http') ? path : fallbackBase + path;
+      res = await fetch(fallbackUrl, { ...options, headers, credentials: 'include' });
+    }
+    if (res.status >= 500 && FHD_CONFIG.API_FALLBACK_BASE && !url.startsWith(FHD_CONFIG.API_FALLBACK_BASE)) {
+      const fallbackUrl = path.startsWith('http') ? path : FHD_CONFIG.API_FALLBACK_BASE + path;
+      res = await fetch(fallbackUrl, { ...options, headers, credentials: 'include' });
+    }
     let json;
     try { json = await res.json(); } catch { json = null; }
 
     if (!res.ok) {
+      if (res.status === 401 && allowRefresh && !path.startsWith('/auth/')) {
+        const refreshToken = localStorage.getItem('fhd-refresh-token');
+        if (refreshToken) {
+          try {
+            const refreshed = await request('/auth/refresh', { method: 'POST', body: { refreshToken } }, false);
+            if (refreshed.accessToken) localStorage.setItem('fhd-token', refreshed.accessToken);
+            if (refreshed.refreshToken) localStorage.setItem('fhd-refresh-token', refreshed.refreshToken);
+            return request(path, originalOptions, false);
+          } catch {
+            localStorage.removeItem('fhd-token');
+            localStorage.removeItem('fhd-refresh-token');
+          }
+        }
+      }
       const err = new Error(json?.message || res.statusText || 'Request failed');
       err.status = res.status;
       err.data = json;
@@ -86,11 +113,16 @@ window.FHD = window.FHD || {};
     createPurchase: () => request('/purchases', { method: 'POST' }),
     getPurchases: () => request('/purchases'),
     getPurchase: (id) => request('/purchases/' + encodeURIComponent(id)),
+    checkBlacklist: (params) => request('/blacklist/check?' + new URLSearchParams(params)),
+    getBlacklist: () => request('/blacklist'),
+    addBlacklistEntry: (body) => request('/blacklist', { method: 'POST', body }),
+    removeBlacklistEntry: (id) => request('/blacklist/' + encodeURIComponent(id), { method: 'DELETE' }),
 
     getHostingPlans: () => request('/hosting/plans'),
     getHostingPlan: (slug) => request('/hosting/plans/' + encodeURIComponent(slug)),
     requestHosting: (body) => request('/hosting/request', { method: 'POST', body }),
     getMyHosting: () => request('/hosting/me'),
+    getMyHostingService: (id) => request('/hosting/me/' + encodeURIComponent(id)),
   };
 
   FHD.api.unwrapList = function (data) {

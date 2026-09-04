@@ -432,45 +432,6 @@ FHD.initAccordion();
   }, { passive: true });
 })();
 
-// ── Form Handling (skip API-wired forms) ───────────────────
-(function initForms() {
-  const API_FORMS = new Set(['login', 'register', 'contact', 'support', 'forgot', 'reset']);
-  $$('form[data-form]').forEach(form => {
-    if (API_FORMS.has(form.dataset.form)) return;
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const type = form.dataset.form;
-      const btn = form.querySelector('[type="submit"]');
-      const original = btn ? btn.textContent : '';
-
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = 'Sending…';
-      }
-
-      // Simulate async submission
-      setTimeout(() => {
-        if (btn) {
-          btn.textContent = '✓ Sent!';
-          btn.classList.add('bg-green-600');
-          setTimeout(() => {
-            btn.disabled = false;
-            btn.textContent = original;
-            btn.classList.remove('bg-green-600');
-            form.reset();
-          }, 3000);
-        }
-        // Show success message
-        const success = form.querySelector('[data-success]');
-        if (success) {
-          success.style.display = 'block';
-          setTimeout(() => success.style.display = 'none', 4000);
-        }
-      }, 1200);
-    });
-  });
-})();
-
 // ── Active Nav Link Detection ──────────────────────────────
 (function initActiveNavLink() {
   const path = window.location.pathname;
@@ -479,6 +440,19 @@ FHD.initAccordion();
     if (href && path.endsWith(href)) {
       link.classList.add('active');
     }
+  });
+})();
+
+// Replace legacy placeholder links with real destinations.
+(function initLinkFallbacks() {
+  $$('a[href="#"]').forEach((link) => {
+    const label = (link.getAttribute('aria-label') || link.textContent || '').trim().toLowerCase();
+    if (label.includes('github')) link.href = 'https://github.com/FH-Development-Workspace';
+    else if (label.includes('discord')) link.href = FHD.pageUrl('pages/community.html');
+    else if (label.includes('twitter')) link.href = FHD.pageUrl('pages/contact.html');
+    else if (label.includes('project')) link.href = FHD.pageUrl('pages/products.html');
+    else if (label.includes('support')) link.href = FHD.pageUrl('pages/support.html');
+    else link.href = FHD.pageUrl('pages/contact.html');
   });
 })();
 

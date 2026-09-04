@@ -44,6 +44,7 @@
         { href: FHD_CONFIG.DOCS_URL, title: 'Documentation', desc: 'Guides & references', external: true },
         { href: 'pages/faq.html', title: 'FAQ', desc: 'Common questions' },
         { href: 'pages/community.html', title: 'Community', desc: 'Creator community hub' },
+        { href: 'pages/hosting.html', title: 'Code Hosting', desc: 'Backend hosting plans' },
         { href: 'pages/events.html', title: 'Events', desc: 'Upcoming events' },
         { href: 'pages/sponsorships.html', title: 'Sponsorships', desc: 'Sponsors & opportunities' },
       ],

@@ -503,6 +503,7 @@ window.FHD = window.FHD || {};
         const profile = companyData.profile || companyData;
         const values = companyData.values || [];
         const timeline = timelineData.timeline || FHD.api.unwrapList(timelineData);
+        const stats = profile.stats || {};
         const productCount = FHD.api.unwrapList(products).length;
         const teamCount = FHD.api.unwrapList(team).length;
         const serviceCount = FHD.api.unwrapList(services).length;
@@ -526,6 +527,7 @@ window.FHD = window.FHD || {};
               <p class="text-xl text-[#475569] leading-relaxed reveal reveal-delay-2">${FHD.escapeHtml(profile.mission || profile.description || profile.tagline || '')}</p>
             </div>
           </section>
+          ${profile.story ? `<section class="py-24 bg-white"><div class="max-w-4xl mx-auto px-6"><div class="section-eyebrow mb-4">Our Story</div><h2 class="section-title text-4xl lg:text-5xl mb-6">Driven by innovation, powered by people.</h2><p class="text-lg text-[#475569] leading-relaxed">${FHD.escapeHtml(profile.story)}</p></div></section>` : ''}
           <section class="py-16 bg-white"><div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
             <div>
               <div class="section-eyebrow mb-4">About Us</div>
@@ -547,10 +549,10 @@ window.FHD = window.FHD || {};
           ${valueCards ? `<section class="py-24 bg-white"><div class="max-w-7xl mx-auto px-6"><div class="text-center mb-14"><h2 class="section-title text-4xl mb-4">Our Values</h2></div><div class="grid md:grid-cols-3 gap-8">${valueCards}</div></div></section>` : ''}
           <section class="py-24 bg-[#0F172A] text-white">
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8 text-center">
-              <div class="reveal"><div class="text-5xl font-display font-black text-primary mb-2">${productCount || '—'}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Products</div></div>
-              <div class="reveal reveal-delay-1"><div class="text-5xl font-display font-black text-primary mb-2">${teamCount || '—'}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Team Members</div></div>
-              <div class="reveal reveal-delay-2"><div class="text-5xl font-display font-black text-primary mb-2">${serviceCount || '—'}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Services</div></div>
-              <div class="reveal reveal-delay-3"><div class="text-5xl font-display font-black text-primary mb-2">${profile.foundedYear || '—'}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Founded</div></div>
+              <div class="reveal"><div class="text-5xl font-display font-black text-primary mb-2">${FHD.escapeHtml(stats.teamMembers || '—')}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Team Members</div></div>
+              <div class="reveal reveal-delay-1"><div class="text-5xl font-display font-black text-primary mb-2">${FHD.escapeHtml(stats.happyCustomers || '—')}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Happy Customers</div></div>
+              <div class="reveal reveal-delay-2"><div class="text-5xl font-display font-black text-primary mb-2">${FHD.escapeHtml(stats.thrivingAffiliates || '—')}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Thriving Affiliates</div></div>
+              <div class="reveal reveal-delay-3"><div class="text-5xl font-display font-black text-primary mb-2">${productCount || '—'}</div><div class="text-[#94A3B8] font-medium uppercase tracking-wider text-sm">Products</div></div>
             </div>
           </section>
           ${timeline.length ? `<section class="py-16 bg-[#F8FAFC]"><div class="max-w-3xl mx-auto px-6"><h2 class="section-title text-3xl mb-10 text-center">Timeline</h2><div class="space-y-6">${timeline.map(t => `
@@ -953,6 +955,7 @@ window.FHD = window.FHD || {};
 
   FHD.initPage = async function () {
     if (FHD.initNav) FHD.initNav();
+    FHD.initFooter?.();
     const body = document.body;
     const page = body.dataset.page;
     FHD.loadNavProducts?.().catch(() => {});
@@ -964,5 +967,49 @@ window.FHD = window.FHD || {};
     } catch (e) {
       console.error('[FHD]', page, e);
     }
+  };
+
+  FHD.initFooter = function () {
+    const prefix = FHD.getPathPrefix();
+    const footer = document.querySelector('footer');
+    if (footer) {
+      const serviceHeading = [...footer.querySelectorAll('h4')].find((heading) => heading.textContent.trim() === 'Services');
+      const serviceList = serviceHeading?.nextElementSibling;
+      if (serviceList && !serviceList.querySelector('[data-hosting-link]')) {
+        serviceList.insertAdjacentHTML('beforeend', `<li><a data-hosting-link href="${prefix}pages/hosting.html" class="footer-link">Code Hosting</a></li>`);
+      }
+      return;
+    }
+
+    document.body.insertAdjacentHTML('beforeend', `
+      <footer class="fhd-generated-footer bg-[#0F172A] text-white mt-20 pt-14 pb-8">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="lg:col-span-2">
+              <a href="${prefix}index.html" class="inline-flex mb-5">${FHD.logoImg('h-10 w-auto object-contain')}</a>
+              <p class="text-[#94A3B8] text-sm leading-relaxed max-w-md">FH Developments builds dependable software, developer tools, Roblox systems, and backend hosting for communities and creators.</p>
+            </div>
+            <div>
+              <h2 class="font-display font-bold text-sm mb-4">Explore</h2>
+              <div class="grid gap-2 text-sm">
+                <a class="footer-link" href="${prefix}pages/products.html">Products</a>
+                <a class="footer-link" href="${prefix}pages/services.html">Services</a>
+                <a class="footer-link" href="${prefix}pages/hosting.html">Code Hosting</a>
+                <a class="footer-link" href="${prefix}pages/support.html">Support</a>
+              </div>
+            </div>
+            <div>
+              <h2 class="font-display font-bold text-sm mb-4">Contact</h2>
+              <div class="grid gap-2 text-sm">
+                <a class="footer-link" href="${prefix}pages/contact.html">Contact FH Developments</a>
+                <a class="footer-link" href="mailto:hosting@fh-development.xyz">hosting@fh-development.xyz</a>
+                <a class="footer-link" href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener">System status</a>
+              </div>
+            </div>
+          </div>
+          <div class="gradient-hr my-8"></div>
+          <p class="text-[#64748B] text-xs">© ${new Date().getFullYear()} FH Developments. All rights reserved.</p>
+        </div>
+      </footer>`);
   };
 })(window.FHD);
