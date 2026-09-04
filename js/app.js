@@ -200,6 +200,8 @@ window.FHD = window.FHD || {};
         ann.innerHTML = `Introducing <strong>${FHD.escapeHtml(blogList[0].title)}</strong>`;
         const annLink = document.getElementById('announcement-link');
         if (annLink) annLink.href = p() + 'pages/blog-article.html?slug=' + encodeURIComponent(blogList[0].slug);
+      } else if (ann) {
+        ann.textContent = 'FH Developments platform updates';
       }
 
       if (company?.profile) {

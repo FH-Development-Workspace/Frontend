@@ -63,7 +63,7 @@ FHD.docsUrl = function (path) {
 
 FHD.logoImg = function (className) {
   const cls = className || 'h-10 w-auto object-contain';
-  return `<img src="${FHD_CONFIG.LOGO_URL}" alt="${FHD.escapeHtml(FHD_CONFIG.SITE_NAME)}" class="${cls}" />`;
+  return `<span class="fhd-logo-wrap"><img src="${FHD_CONFIG.LOGO_URL}" alt="${FHD.escapeHtml(FHD_CONFIG.SITE_NAME)}" class="${cls}" onerror="this.hidden=true;this.nextElementSibling.hidden=false" /><span class="fhd-logo-fallback" hidden>FH <strong>DEVELOPMENTS</strong></span></span>`;
 };
 
 FHD.getQueryParam = function (key) {
