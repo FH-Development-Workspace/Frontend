@@ -2,7 +2,7 @@
 
 window.FHD = window.FHD || {};
 
-// Sync maintenance toggle from js/maintenance.js (loaded before this file on every page).
+// Sync maintenance toggle from js/maintenance.js.
 (function syncMaintenanceConfig() {
   window.FHD_CONFIG = window.FHD_CONFIG || {};
   var m = window.FHD_MAINTENANCE || {};
