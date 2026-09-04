@@ -77,6 +77,7 @@ window.FHD = window.FHD || {};
     getMe: () => request('/auth/me'),
 
     getHostingPlans: () => request('/hosting/plans'),
+    getHostingPlan: (slug) => request('/hosting/plans/' + encodeURIComponent(slug)),
     requestHosting: (body) => request('/hosting/request', { method: 'POST', body }),
     getMyHosting: () => request('/hosting/me'),
   };

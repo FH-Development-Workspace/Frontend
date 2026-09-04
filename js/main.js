@@ -32,8 +32,8 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 })();
 
 // ── Dropdown Menus ─────────────────────────────────────────
-(function initDropdowns() {
-  const dropdowns = $$('.nav-dropdown');
+function initDropdowns() {
+  const dropdowns = document.querySelectorAll('.nav-dropdown');
   let activeDropdown = null;
 
   function closeAll() {
@@ -45,7 +45,7 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   }
 
   dropdowns.forEach(dropdown => {
-    const trigger = dropdown.querySelector('.nav-link');
+    const trigger = dropdown.querySelector('.nav-link, button.nav-link');
     const menu = dropdown.querySelector('.dropdown-menu');
     if (!trigger || !menu) return;
 
@@ -59,18 +59,27 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
       menu.classList.remove('open');
       if (activeDropdown === dropdown) activeDropdown = null;
     });
+
+    trigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menu.classList.contains('open');
+      closeAll();
+      if (!isOpen) { menu.classList.add('open'); activeDropdown = dropdown; }
+    });
   });
 
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-dropdown')) closeAll();
   });
-})();
+}
+
+if (window.FHD) window.FHD.initDropdowns = initDropdowns;
 
 // ── Mobile Menu ────────────────────────────────────────────
-(function initMobileMenu() {
-  const openBtn = $('#mobile-menu-open');
-  const closeBtn = $('#mobile-menu-close');
-  const menu = $('#mobile-menu');
+function initMobileMenu() {
+  const openBtn = document.getElementById('mobile-menu-open');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const menu = document.getElementById('mobile-menu');
   const body = document.body;
 
   if (!menu) return;
@@ -95,14 +104,14 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
   });
 
   // Mobile accordion for sub-menus
-  $$('.mobile-nav-group', menu).forEach(group => {
+  menu.querySelectorAll('.mobile-nav-group').forEach(group => {
     const toggle = group.querySelector('.mobile-nav-toggle');
     const submenu = group.querySelector('.mobile-nav-submenu');
     if (!toggle || !submenu) return;
 
     toggle.addEventListener('click', () => {
       const isOpen = submenu.style.maxHeight;
-      $$('.mobile-nav-submenu', menu).forEach(m => {
+      menu.querySelectorAll('.mobile-nav-submenu').forEach(m => {
         m.style.maxHeight = null;
         m.style.opacity = 0;
       });
@@ -117,7 +126,9 @@ const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
     submenu.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
     submenu.style.opacity = 0;
   });
-})();
+}
+
+if (window.FHD) window.FHD.initMobileMenu = initMobileMenu;
 
 // ── Scroll Reveal (IntersectionObserver) ──────────────────
 (function initScrollReveal() {

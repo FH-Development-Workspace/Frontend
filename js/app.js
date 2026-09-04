@@ -830,15 +830,26 @@ window.FHD = window.FHD || {};
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('[type="submit"]');
+        const errEl = document.getElementById('reg-error');
         const orig = btn?.textContent;
         if (btn) { btn.disabled = true; btn.textContent = 'Creating...'; }
+        if (errEl) errEl.classList.add('hidden');
         try {
           const fd = new FormData(form);
-          await api().register(Object.fromEntries(fd.entries()));
+          const payload = {
+            username: fd.get('username'),
+            email: fd.get('email'),
+            password: fd.get('password'),
+          };
+          const displayName = fd.get('displayName');
+          if (displayName) payload.displayName = displayName;
+          await api().register(payload);
           FHD.toast('Account created! Please verify your email.', 'success');
           setTimeout(() => { window.location.href = 'verify-email.html'; }, 1500);
         } catch (err) {
-          FHD.toast(err.message || 'Registration failed', 'error');
+          const msg = err.message || 'Registration failed';
+          FHD.toast(msg, 'error');
+          if (errEl) { errEl.textContent = msg; errEl.classList.remove('hidden'); }
         } finally {
           if (btn) { btn.disabled = false; btn.textContent = orig; }
         }

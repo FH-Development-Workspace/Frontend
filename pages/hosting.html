@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hosting | FH Developments</title>
-    <link rel="stylesheet" href="../css/styles.css"> <!-- Replace with actual stylesheet -->
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #111; color: #fff; margin: 0; padding: 0; }
         .hero { text-align: center; padding: 50px 20px; }
@@ -37,15 +39,12 @@
     <script>
         async function loadPlans() {
             try {
-                // Adjust API base URL according to your environment config
-                const res = await fetch('http://localhost:5000/api/hosting/plans');
-                const result = await res.json();
-                
                 const container = document.getElementById('plans-container');
+                const plans = await FHD.api.getHostingPlans();
                 container.innerHTML = '';
-                
-                if (result.success && result.data.length > 0) {
-                    result.data.forEach(plan => {
+
+                if (plans.length > 0) {
+                    plans.forEach(plan => {
                         const card = document.createElement('div');
                         card.className = 'plan-card ' + (plan.recommended ? 'recommended' : '');
                         card.innerHTML = `
@@ -75,28 +74,12 @@
         }
 
         async function requestHosting(planId) {
-            // Simplified request flow without payment
-            const email = prompt("Enter your email to request this hosting plan:");
-            if (!email) return;
-
             try {
-                const res = await fetch('http://localhost:5000/api/hosting/request', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ planId, email })
-                });
-                
-                const result = await res.json();
-                if (result.success) {
-                    alert('Hosting requested successfully! We will contact you at ' + email);
-                } else {
-                    alert('Failed to request hosting: ' + (result.message || result.error));
-                }
+                const result = await FHD.api.requestHosting({ planId });
+                if (result.paymentUrl) window.location.assign(result.paymentUrl);
+                else alert('Request received. Payment is not configured yet; please email hosting@fh-development.xyz.');
             } catch (error) {
-                console.error(error);
-                alert('An error occurred while requesting hosting.');
+                alert(error.status === 401 ? 'Please sign in before requesting hosting.' : 'Unable to create the hosting request. Please try again.');
             }
         }
 

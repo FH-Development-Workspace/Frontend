@@ -184,6 +184,9 @@
     const mount = document.getElementById('fhd-nav');
     if (!mount) return;
     FHD.renderNav(mount.dataset.active || '');
+    // Init nav interactive behavior AFTER the HTML has been injected
+    if (FHD.initDropdowns) FHD.initDropdowns();
+    if (FHD.initMobileMenu) FHD.initMobileMenu();
     FHD.loadNavProducts?.();
     FHD.loadNavServices?.();
   };
