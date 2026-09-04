@@ -75,6 +75,17 @@ window.FHD = window.FHD || {};
     resetPassword: (body) => request('/auth/reset-password', { method: 'POST', body }),
     verifyEmail: (token) => request('/auth/verify-email', { method: 'POST', body: { token } }),
     getMe: () => request('/auth/me'),
+    refresh: (refreshToken) => request('/auth/refresh', { method: 'POST', body: { refreshToken } }),
+    logout: (refreshToken) => request('/auth/logout', { method: 'POST', body: { refreshToken } }),
+
+    getCart: () => request('/cart'),
+    addToCart: (body) => request('/cart/items', { method: 'POST', body }),
+    updateCartItem: (itemId, body) => request('/cart/items/' + encodeURIComponent(itemId), { method: 'PATCH', body }),
+    removeCartItem: (itemId) => request('/cart/items/' + encodeURIComponent(itemId), { method: 'DELETE' }),
+    clearCart: () => request('/cart', { method: 'DELETE' }),
+    createPurchase: () => request('/purchases', { method: 'POST' }),
+    getPurchases: () => request('/purchases'),
+    getPurchase: (id) => request('/purchases/' + encodeURIComponent(id)),
 
     getHostingPlans: () => request('/hosting/plans'),
     getHostingPlan: (slug) => request('/hosting/plans/' + encodeURIComponent(slug)),

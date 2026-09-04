@@ -814,6 +814,7 @@ window.FHD = window.FHD || {};
           const data = await api().login({ email: fd.get('email'), password: fd.get('password') });
           const token = data.token || data.accessToken;
           if (token) localStorage.setItem('fhd-token', token);
+          if (data.refreshToken) localStorage.setItem('fhd-refresh-token', data.refreshToken);
           FHD.toast('Signed in successfully!', 'success');
           setTimeout(() => { window.location.href = FHD.pageUrl('index.html'); }, 1000);
         } catch (err) {
