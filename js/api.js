@@ -64,6 +64,7 @@ window.FHD = window.FHD || {};
     getBlogPost: (slug) => request('/blog/' + encodeURIComponent(slug)),
     getFaq: () => request('/faq'),
     getDocumentation: (params) => request('/documentation' + (params ? '?' + new URLSearchParams(params) : '')),
+    getDocs: (params) => request('/docs' + (params ? '?' + new URLSearchParams(params) : '')),
     getDoc: (slug) => request('/documentation/' + encodeURIComponent(slug)),
     getChangelog: () => request('/changelog'),
     getCareers: (params) => request('/careers' + (params ? '?' + new URLSearchParams(params) : '')),
@@ -102,6 +103,7 @@ window.FHD = window.FHD || {};
     resetPassword: (body) => request('/auth/reset-password', { method: 'POST', body }),
     verifyEmail: (token) => request('/auth/verify-email', { method: 'POST', body: { token } }),
     getMe: () => request('/auth/me'),
+    getCurrentUser: () => request('/users/me'),
     refresh: (refreshToken) => request('/auth/refresh', { method: 'POST', body: { refreshToken } }),
     logout: (refreshToken) => request('/auth/logout', { method: 'POST', body: { refreshToken } }),
 

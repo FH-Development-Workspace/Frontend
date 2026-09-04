@@ -972,25 +972,20 @@ window.FHD = window.FHD || {};
   FHD.initFooter = function () {
     const prefix = FHD.getPathPrefix();
     const footer = document.querySelector('footer');
-    if (footer) {
-      const serviceHeading = [...footer.querySelectorAll('h4')].find((heading) => heading.textContent.trim() === 'Services');
-      const serviceList = serviceHeading?.nextElementSibling;
-      if (serviceList && !serviceList.querySelector('[data-hosting-link]')) {
-        serviceList.insertAdjacentHTML('beforeend', `<li><a data-hosting-link href="${prefix}pages/hosting.html" class="footer-link">Code Hosting</a></li>`);
-      }
-      return;
-    }
+    if (footer?.dataset.commonFooter !== 'true') footer?.remove();
+    if (document.querySelector('footer[data-common-footer="true"]')) return;
 
     document.body.insertAdjacentHTML('beforeend', `
-      <footer class="fhd-generated-footer bg-[#0F172A] text-white mt-20 pt-14 pb-8">
+      <footer data-common-footer="true" class="fhd-generated-footer bg-[#0F172A] text-white mt-20 pt-14 pb-8">
         <div class="max-w-7xl mx-auto px-6">
           <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
             <div class="lg:col-span-2">
               <a href="${prefix}index.html" class="inline-flex mb-5">${FHD.logoImg('h-10 w-auto object-contain')}</a>
               <p class="text-[#94A3B8] text-sm leading-relaxed max-w-md">FH Developments builds dependable software, developer tools, Roblox systems, and backend hosting for communities and creators.</p>
+              <div class="flex gap-2 mt-6"><a class="footer-icon-link" href="${prefix}pages/community.html" aria-label="Community"><i data-lucide="message-circle"></i></a><a class="footer-icon-link" href="https://github.com/FH-Development-Workspace" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a><a class="footer-icon-link" href="mailto:hosting@fh-development.xyz" aria-label="Email"><i data-lucide="mail"></i></a></div>
             </div>
             <div>
-              <h2 class="font-display font-bold text-sm mb-4">Explore</h2>
+              <h2 class="font-display font-bold text-sm mb-4"><i data-lucide="compass" class="inline-icon"></i> Explore</h2>
               <div class="grid gap-2 text-sm">
                 <a class="footer-link" href="${prefix}pages/products.html">Products</a>
                 <a class="footer-link" href="${prefix}pages/services.html">Services</a>
@@ -999,7 +994,7 @@ window.FHD = window.FHD || {};
               </div>
             </div>
             <div>
-              <h2 class="font-display font-bold text-sm mb-4">Contact</h2>
+              <h2 class="font-display font-bold text-sm mb-4"><i data-lucide="headphones" class="inline-icon"></i> Contact</h2>
               <div class="grid gap-2 text-sm">
                 <a class="footer-link" href="${prefix}pages/contact.html">Contact FH Developments</a>
                 <a class="footer-link" href="mailto:hosting@fh-development.xyz">hosting@fh-development.xyz</a>
@@ -1011,5 +1006,13 @@ window.FHD = window.FHD || {};
           <p class="text-[#64748B] text-xs">© ${new Date().getFullYear()} FH Developments. All rights reserved.</p>
         </div>
       </footer>`);
+    const hydrateIcons = () => window.lucide?.createIcons?.();
+    if (window.lucide) hydrateIcons();
+    else {
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/lucide@latest';
+      script.onload = hydrateIcons;
+      document.head.appendChild(script);
+    }
   };
 })(window.FHD);
