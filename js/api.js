@@ -25,10 +25,6 @@ window.FHD = window.FHD || {};
       const fallbackUrl = path.startsWith('http') ? path : fallbackBase + path;
       res = await fetch(fallbackUrl, { ...options, headers, credentials: 'include' });
     }
-    if (res.status >= 500 && FHD_CONFIG.API_FALLBACK_BASE && !url.startsWith(FHD_CONFIG.API_FALLBACK_BASE)) {
-      const fallbackUrl = path.startsWith('http') ? path : FHD_CONFIG.API_FALLBACK_BASE + path;
-      res = await fetch(fallbackUrl, { ...options, headers, credentials: 'include' });
-    }
     let json;
     try { json = await res.json(); } catch { json = null; }
 
@@ -87,13 +83,13 @@ window.FHD = window.FHD || {};
       if (FHD_CONFIG.OPTIONAL_APIS && FHD_CONFIG.OPTIONAL_APIS[apiKey] === false) return null;
       try { return await request(path); } catch (e) { if (e.status === 404) return null; throw e; }
     },
-    getPress: () => FHD.api.tryGet('/press', 'press'),
-    getMedia: () => FHD.api.tryGet('/media', 'media'),
-    getSponsorships: () => FHD.api.tryGet('/sponsorships', 'sponsorships'),
-    getCommunity: () => FHD.api.tryGet('/community', 'community'),
-    getEvents: () => FHD.api.tryGet('/events', 'events'),
-    getDownloads: () => FHD.api.tryGet('/downloads', 'downloads'),
-    getFeatures: () => FHD.api.tryGet('/features', 'features'),
+    getPress: () => request('/press'),
+    getMedia: () => request('/press'),
+    getSponsorships: () => request('/sponsorships'),
+    getCommunity: () => request('/community'),
+    getEvents: () => request('/events'),
+    getDownloads: () => request('/downloads'),
+    getFeatures: () => request('/features'),
 
     submitContact: (body) => request('/contact', { method: 'POST', body }),
     createSupportTicket: (body) => request('/support', { method: 'POST', body }),
