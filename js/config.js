@@ -19,13 +19,14 @@ const localHosts = ['localhost', '127.0.0.1'];
 const isLocalDevelopment = localHosts.includes(window.location.hostname);
 
 window.FHD_CONFIG = Object.assign({
-  API_BASE: isLocalDevelopment ? 'http://localhost:5000/api/v1' : 'https://backend-mczn.onrender.com/api/v1',
-  API_FALLBACK_BASE: null,
-  SITE_NAME: 'FH Development',
+  API_BASE: isLocalDevelopment ? 'http://localhost:5000/api/v1' : 'https://api.fh-development.xyz/api/v1',
+  API_FALLBACK_BASE: 'https://backend-mczn.onrender.com/api/v1',
+  SITE_NAME: 'FH Developments',
   SITE_URL: 'https://fh-development.xyz',
   LEGAL_URL: 'https://legal.fh-development.xyz',
   STATUS_URL: 'https://status.fh-development.xyz',
   DOCS_URL: 'https://docs.fh-development.xyz',
+  HOSTING_CONTACT_EMAIL: 'hosting@fh-development.xyz',
   LOGO_URL: 'https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png',
   FAVICON_URL: 'https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png',
   MAINTENANCE_MODE: false,

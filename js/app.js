@@ -999,7 +999,7 @@ window.FHD = window.FHD || {};
               <h2 class="font-display font-bold text-sm mb-4"><i data-lucide="headphones" class="inline-icon"></i> Contact</h2>
               <div class="grid gap-2 text-sm">
                 <a class="footer-link" href="${prefix}pages/contact.html">Contact FH Developments</a>
-                <a class="footer-link" href="mailto:hosting@fh-development.xyz">hosting@fh-development.xyz</a>
+                <a class="footer-link" href="mailto:support@fh-development.xyz>">support@fh-development.xyz</a>
                 <a class="footer-link" href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener">System status</a>
               </div>
             </div>
