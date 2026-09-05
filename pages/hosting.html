@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hosting Plans | FH Developments</title>
+    <meta name="description" content="Backend code hosting for Python and JavaScript, including Discord bots. Choose a plan and submit a hosting request.">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white font-body text-slate antialiased">
+    <div id="fhd-nav" data-active="services"></div>
+
+    <main>
+        <section class="relative overflow-hidden bg-[#0F172A] py-20 lg:py-28">
+            <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
+            <div class="relative max-w-5xl mx-auto px-6 text-center">
+                <div class="section-eyebrow mx-auto mb-6 text-[#93C5FD]">FH Code Hosting</div>
+                <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-7xl text-white mb-6">Backend hosting that keeps up.</h1>
+                <p class="text-lg lg:text-xl text-[#CBD5E1] max-w-3xl mx-auto leading-relaxed">
+                    FH Developments currently hosts backend code only, including Python and JavaScript codebases (such as Discord bots).
+                    Select a plan below to submit a manual hosting request.
+                </p>
+            </div>
+        </section>
+
+        <section class="py-16 lg:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mb-12">
+                    <div class="section-eyebrow mb-4">Code Hosting Plans</div>
+                    <h2 class="section-title text-4xl lg:text-5xl mb-5">Simple resources. Clear limits.</h2>
+                    <p class="text-lg text-[#475569] leading-relaxed">
+                        Prices are in GBP. Hosting requests are reviewed manually by our engineering team.
+                        Mod Mail is available on every plan, but Starter is not recommended because it does not provide enough CPU capacity.
+                        Standard or Premium is the best choice for Mod Mail.
+                    </p>
+                </div>
+
+                <div id="plans-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
+                    <div class="col-span-full text-center py-12 text-[#64748B]">Loading hosting plans...</div>
+                </div>
+
+                <div class="mt-12 p-6 rounded-2xl bg-white border border-[#E2E8F0] flex flex-col md:flex-row md:items-center justify-between gap-5">
+                    <div>
+                        <h2 class="font-display font-bold text-xl mb-2">Need a custom quote or assistance?</h2>
+                        <p class="text-[#64748B]">Please email <span class="text-primary font-semibold">hosting@fh-development.xyz</span> for custom requirements or hosting support.</p>
+                    </div>
+                    <a class="btn-primary whitespace-nowrap" href="mailto:hosting@fh-development.xyz">Email Hosting</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="fhd-footer"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+    const plansContainer = document.getElementById('plans-container');
+    const formatMemory = (ram) => ram >= 1024 ? `${ram / 1024}GB` : `${ram}MB`;
+
+    const planCard = (plan) => `
+      <article class="relative p-7 rounded-2xl bg-white border ${plan.recommended ? 'border-primary shadow-blue' : 'border-[#E2E8F0]'} flex flex-col">
+        ${plan.recommended ? '<span class="absolute -top-3 left-6 badge badge-blue">Recommended</span>' : ''}
+        <div class="flex items-start justify-between gap-4 mb-5">
+            <div>
+                <h3 class="font-display font-bold text-2xl text-[#0F172A]">${FHD.escapeHtml(plan.name)}</h3>
+                <p class="text-sm text-[#64748B] mt-1">${FHD.escapeHtml(plan.description || '')}</p>
+            </div>
+            <span class="text-primary"><i data-lucide="server"></i></span>
+        </div>
+        <div class="mb-7">
+            <span class="font-display font-black text-4xl text-[#0F172A]">£${Number(plan.priceGBP).toFixed(2)}</span>
+            <span class="text-[#64748B]">/month</span>
+        </div>
+        <ul class="space-y-3 text-sm text-[#475569] mb-8 flex-1">
+            <li><i data-lucide="memory-stick" class="inline-icon text-primary"></i> ${formatMemory(plan.ramMB)} RAM</li>
+            <li><i data-lucide="cpu" class="inline-icon text-primary"></i> ${plan.cpuPercent}% CPU</li>
+            <li><i data-lucide="hard-drive" class="inline-icon text-primary"></i> ${plan.storageGB}GB Storage</li>
+            <li><i data-lucide="database" class="inline-icon text-primary"></i> ${plan.databaseLimit} Database${plan.databaseLimit === 1 ? '' : 's'}</li>
+            <li><i data-lucide="archive" class="inline-icon text-primary"></i> ${plan.backupLimit} Backup${plan.backupLimit === 1 ? '' : 's'}</li>
+            <li><i data-lucide="messages-square" class="inline-icon text-primary"></i> Mod Mail available${plan.slug === 'starter' ? ' (limited CPU capacity)' : ''}</li>
+        </ul>
+        <button class="btn-primary w-full justify-center" type="button" data-plan-id="${plan.id}" data-plan-name="${FHD.escapeHtml(plan.name)}">
+            <i data-lucide="arrow-up-right"></i> Request Hosting
+        </button>
+      </article>
+    `;
+
+    async function loadPlans() {
+        try {
+            const plans = await FHD.api.getHostingPlans();
+            if (!plans || !plans.length) {
+                plansContainer.innerHTML = '<div class="col-span-full text-center py-12 text-[#64748B]">Hosting plans are currently being updated. Please check back shortly.</div>';
+                return;
+            }
+            plansContainer.innerHTML = plans.map(planCard).join('');
+            window.lucide?.createIcons();
+
+            plansContainer.querySelectorAll('[data-plan-id]').forEach((button) => {
+                button.addEventListener('click', async () => {
+                    const planId = button.dataset.planId;
+                    const planName = button.dataset.planName;
+                    const serviceName = prompt(`Enter a name for your ${planName} hosting service:`);
+                    if (!serviceName) return;
+
+                    try {
+                        await FHD.api.requestHosting({ planId, serviceName });
+                        alert(`Hosting request for "${serviceName}" submitted successfully! Our team will review your request and contact you at hosting@fh-development.xyz.`);
+                    } catch (error) {
+                        if (error.status === 401) {
+                            alert('Please log in to submit a hosting request.');
+                            window.location.assign('../auth/login.html');
+                        } else {
+                            alert(error.message || 'Unable to submit hosting request. Please try again.');
+                        }
+                    }
+                });
+            });
+        } catch (error) {
+            plansContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500">${FHD.escapeHtml(error.message || 'Unable to load hosting plans.')}</div>`;
+        }
+    }
+
+    loadPlans();
+    </script>
+</body>
+</html>
