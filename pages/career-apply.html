@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Position | FH Developments</title>
+    <meta name="description" content="Submit your application for a career at FH Developments.">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white font-body text-slate antialiased">
+    <div id="fhd-nav" data-active="company"></div>
+
+    <main>
+        <section class="py-16 lg:py-24 bg-[#F8FAFC]">
+            <div class="max-w-3xl mx-auto px-6">
+                <a id="back-link" class="inline-flex items-center gap-2 text-primary font-medium mb-6 hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Position
+                </a>
+                
+                <div class="section-eyebrow mb-4">Application Form</div>
+                <h1 class="font-display font-black text-4xl lg:text-5xl text-[#0F172A] mb-6">Apply for <span id="position-title">Position</span></h1>
+                
+                <div id="application-loading" class="text-center py-12">
+                    <div class="spinner mx-auto mb-4"></div>
+                    <p class="text-[#64748B]">Loading application form...</p>
+                </div>
+
+                <div id="application-form-container" class="hidden">
+                    <form id="application-form" class="space-y-6">
+                        <!-- Basic Information -->
+                        <div class="bg-white rounded-2xl border border-[#E2E8F0] p-8">
+                            <h2 class="font-display font-bold text-xl text-[#0F172A] mb-6">Basic Information</h2>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="hosting-form-label">Full Name *</label>
+                                    <input type="text" name="fullName" required class="hosting-form-input" placeholder="John Doe">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">Email *</label>
+                                    <input type="email" name="email" required class="hosting-form-input" placeholder="john@example.com">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">Phone</label>
+                                    <input type="tel" name="phone" class="hosting-form-input" placeholder="+1 234 567 8900">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">Location</label>
+                                    <input type="text" name="location" class="hosting-form-input" placeholder="City, Country">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <label class="hosting-form-label">Resume/CV URL *</label>
+                                <input type="url" name="resumeUrl" required class="hosting-form-input" placeholder="https://drive.google.com/...">
+                            </div>
+                            
+                            <div>
+                                <label class="hosting-form-label">Cover Letter</label>
+                                <textarea name="coverLetter" rows="4" class="hosting-form-textarea" placeholder="Tell us why you're interested in this position..."></textarea>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="hosting-form-label">Portfolio URL</label>
+                                    <input type="url" name="portfolioUrl" class="hosting-form-input" placeholder="https://yourportfolio.com">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">GitHub URL</label>
+                                    <input type="url" name="githubUrl" class="hosting-form-input" placeholder="https://github.com/username">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">LinkedIn URL</label>
+                                    <input type="url" name="linkedinUrl" class="hosting-form-input" placeholder="https://linkedin.com/in/username">
+                                </div>
+                                <div>
+                                    <label class="hosting-form-label">Discord Username</label>
+                                    <input type="text" name="discordUsername" class="hosting-form-input" placeholder="username#0000">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Custom Questions -->
+                        <div id="custom-questions-container" class="bg-white rounded-2xl border border-[#E2E8F0] p-8 hidden">
+                            <h2 class="font-display font-bold text-xl text-[#0F172A] mb-6">Additional Questions</h2>
+                            <div id="custom-questions"></div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button type="button" onclick="history.back()" class="btn-secondary flex-1">Cancel</button>
+                            <button type="submit" class="btn-primary flex-1">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="application-error" class="hidden text-center py-12">
+                    <div class="text-6xl mb-4">😕</div>
+                    <h3 class="font-display font-bold text-2xl text-[#0F172A] mb-2">Unable to Load Application</h3>
+                    <p class="text-[#64748B] mb-6">This position may not be accepting applications at this time.</p>
+                    <a href="careers.html" class="btn-primary">View All Positions</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="fhd-footer"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    async function loadApplicationForm() {
+        if (!slug) {
+            showApplicationError();
+            return;
+        }
+
+        try {
+            const response = await fetch(`${FHD_CONFIG.API_BASE_URL}/careers/${slug}`);
+            const data = await response.json();
+            
+            if (!data.success || !data.data) {
+                showApplicationError();
+                return;
+            }
+
+            const position = data.data.position;
+            const questions = data.data.questions || [];
+
+            document.getElementById('application-loading').classList.add('hidden');
+            document.getElementById('application-form-container').classList.remove('hidden');
+            document.getElementById('position-title').textContent = position.title;
+            document.getElementById('back-link').href = `career.html?slug=${encodeURIComponent(slug)}`;
+
+            // Render custom questions
+            if (questions.length > 0) {
+                const container = document.getElementById('custom-questions-container');
+                const questionsDiv = document.getElementById('custom-questions');
+                container.classList.remove('hidden');
+
+                questions.forEach((q, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'hosting-form-group';
+                    
+                    const label = document.createElement('label');
+                    label.className = 'hosting-form-label';
+                    label.textContent = q.questionText + (q.required ? ' *' : '');
+                    questionDiv.appendChild(label);
+
+                    let input;
+                    switch (q.questionType) {
+                        case 'short_text':
+                            input = document.createElement('input');
+                            input.type = 'text';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'long_text':
+                            input = document.createElement('textarea');
+                            input.className = 'hosting-form-textarea';
+                            input.rows = 4;
+                            input.required = q.required;
+                            break;
+                        case 'email':
+                            input = document.createElement('input');
+                            input.type = 'email';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'phone':
+                            input = document.createElement('input');
+                            input.type = 'tel';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'number':
+                            input = document.createElement('input');
+                            input.type = 'number';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'date':
+                            input = document.createElement('input');
+                            input.type = 'date';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'yes_no':
+                            input = document.createElement('select');
+                            input.className = 'hosting-form-select';
+                            input.required = q.required;
+                            input.innerHTML = `
+                                <option value="">Select...</option>
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
+                            `;
+                            break;
+                        case 'single_choice':
+                            input = document.createElement('select');
+                            input.className = 'hosting-form-select';
+                            input.required = q.required;
+                            input.innerHTML = '<option value="">Select...</option>' + 
+                                q.options.map(opt => `<option value="${opt.optionText}">${opt.optionText}</option>`).join('');
+                            break;
+                        case 'multiple_choice':
+                            input = document.createElement('div');
+                            input.className = 'space-y-2';
+                            q.options.forEach(opt => {
+                                const checkboxDiv = document.createElement('div');
+                                checkboxDiv.className = 'flex items-center gap-2';
+                                const checkbox = document.createElement('input');
+                                checkbox.type = 'checkbox';
+                                checkbox.name = `question_${q.id}`;
+                                checkbox.value = opt.optionText;
+                                checkbox.className = 'hosting-form-checkbox';
+                                const label = document.createElement('label');
+                                label.className = 'text-sm text-[#0F172A]';
+                                label.textContent = opt.optionText;
+                                checkboxDiv.appendChild(checkbox);
+                                checkboxDiv.appendChild(label);
+                                input.appendChild(checkboxDiv);
+                            });
+                            break;
+                        case 'file_upload':
+                            input = document.createElement('input');
+                            input.type = 'file';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        case 'url':
+                            input = document.createElement('input');
+                            input.type = 'url';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                            break;
+                        default:
+                            input = document.createElement('input');
+                            input.type = 'text';
+                            input.className = 'hosting-form-input';
+                            input.required = q.required;
+                    }
+
+                    input.name = `question_${q.id}`;
+                    input.dataset.questionId = q.id;
+                    input.dataset.questionType = q.questionType;
+                    questionDiv.appendChild(input);
+                    questionsDiv.appendChild(questionDiv);
+                });
+            }
+
+            // Store position info for submission
+            window.positionId = position.id;
+
+            document.getElementById('application-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                
+                const payload = {
+                    fullName: formData.get('fullName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    location: formData.get('location'),
+                    resumeUrl: formData.get('resumeUrl'),
+                    coverLetter: formData.get('coverLetter'),
+                    portfolioUrl: formData.get('portfolioUrl'),
+                    githubUrl: formData.get('githubUrl'),
+                    linkedinUrl: formData.get('linkedinUrl'),
+                    discordUsername: formData.get('discordUsername'),
+                    answers: [],
+                };
+
+                // Collect custom question answers
+                questions.forEach(q => {
+                    const answer = {
+                        questionId: q.id,
+                        questionType: q.questionType,
+                    };
+
+                    if (q.questionType === 'multiple_choice') {
+                        const checkboxes = document.querySelectorAll(`input[name="question_${q.id}"]:checked`);
+                        answer.answerArray = Array.from(checkboxes).map(cb => cb.value);
+                    } else {
+                        const input = document.querySelector(`[name="question_${q.id}"]`);
+                        answer.answerText = input?.value || '';
+                    }
+
+                    payload.answers.push(answer);
+                });
+
+                try {
+                    const response = await fetch(`${FHD_CONFIG.API_BASE_URL}/careers/${position.id}/apply`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            ...(FHD.token ? { 'Authorization': `Bearer ${FHD.token}` } : {}),
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        alert('Application submitted successfully! We will review your application and get back to you soon.');
+                        window.location.href = 'careers.html';
+                    } else {
+                        alert(result.message || 'Failed to submit application. Please try again.');
+                    }
+                } catch (error) {
+                    alert('An error occurred while submitting your application. Please try again.');
+                    console.error('Application submission error:', error);
+                }
+            });
+
+            window.lucide?.createIcons();
+        } catch (error) {
+            showApplicationError();
+            console.error('Error loading application form:', error);
+        }
+    }
+
+    function showApplicationError() {
+        document.getElementById('application-loading').classList.add('hidden');
+        document.getElementById('application-error').classList.remove('hidden');
+    }
+
+    loadApplicationForm();
+    </script>
+</body>
+</html>

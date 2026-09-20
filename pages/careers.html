@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Careers | FH Developments</title>
+    <meta name="description" content="Join the FH Developments team. View open positions and apply for careers in software development, engineering, and more.">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white font-body text-slate antialiased">
+    <div id="fhd-nav" data-active="company"></div>
+
+    <main>
+        <section class="relative overflow-hidden bg-[#0F172A] py-20 lg:py-28">
+            <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
+            <div class="relative max-w-5xl mx-auto px-6 text-center">
+                <div class="section-eyebrow mx-auto mb-6 text-[#93C5FD]">Join Our Team</div>
+                <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-7xl text-white mb-6">Build the Future with Us</h1>
+                <p class="text-lg lg:text-xl text-[#CBD5E1] max-w-3xl mx-auto leading-relaxed">
+                    FH Developments is looking for talented individuals to join our growing team. 
+                    We're building meaningful software that helps creators and communities thrive.
+                </p>
+            </div>
+        </section>
+
+        <section class="py-16 lg:py-24 bg-[#F8FAFC]">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="max-w-3xl mb-12">
+                    <div class="section-eyebrow mb-4">Open Positions</div>
+                    <h2 class="section-title text-4xl lg:text-5xl mb-5">Your Next Adventure Awaits</h2>
+                    <p class="text-lg text-[#475569] leading-relaxed">
+                        Explore our current openings and find the perfect role to grow your career.
+                        We offer competitive benefits, flexible work arrangements, and the opportunity to work on impactful projects.
+                    </p>
+                </div>
+
+                <div id="positions-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
+                    <div class="col-span-full text-center py-12 text-[#64748B]">Loading positions...</div>
+                </div>
+
+                <div id="no-positions" class="hidden text-center py-16">
+                    <div class="text-6xl mb-4">🚀</div>
+                    <h3 class="font-display font-bold text-2xl text-[#0F172A] mb-2">No Current Openings</h3>
+                    <p class="text-[#64748B]">We're not currently hiring, but check back soon for new opportunities!</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-16 lg:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-12">
+                    <div class="section-eyebrow mb-4">Why Join Us</div>
+                    <h2 class="section-title text-4xl lg:text-5xl mb-5">Perks & Benefits</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#EFF6FF] flex items-center justify-center">
+                            <i data-lucide="laptop" class="text-primary w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-2">Remote-First</h3>
+                        <p class="text-[#64748B] text-sm">Work from anywhere with flexible hours</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#F0FDF4] flex items-center justify-center">
+                            <i data-lucide="graduation-cap" class="text-green-600 w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-2">Learning Budget</h3>
+                        <p class="text-[#64748B] text-sm">Annual budget for courses and conferences</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#FAF5FF] flex items-center justify-center">
+                            <i data-lucide="heart" class="text-purple-600 w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-2">Health Benefits</h3>
+                        <p class="text-[#64748B] text-sm">Comprehensive health and wellness coverage</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#FFF7ED] flex items-center justify-center">
+                            <i data-lucide="rocket" class="text-orange-600 w-8 h-8"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-2">Growth Opportunities</h3>
+                        <p class="text-[#64748B] text-sm">Clear career progression and mentorship</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="fhd-footer"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+    const positionsContainer = document.getElementById('positions-container');
+    const noPositionsDiv = document.getElementById('no-positions');
+
+    const positionCard = (position) => `
+      <article class="hosting-plan-card">
+        ${position.featured ? '<span class="hosting-recommended-badge">Featured</span>' : ''}
+        <div class="flex items-start justify-between gap-4 mb-5">
+            <div>
+                <h3 class="font-display font-bold text-xl text-[#0F172A]">${FHD.escapeHtml(position.title)}</h3>
+                <p class="text-sm text-[#64748B] mt-1">${FHD.escapeHtml(position.department || '')}</p>
+            </div>
+            <span class="text-primary"><i data-lucide="briefcase"></i></span>
+        </div>
+        <div class="mb-5">
+            <div class="flex gap-2 flex-wrap mb-3">
+                <span class="badge badge-blue">${FHD.escapeHtml(position.employmentType)}</span>
+                <span class="badge badge-green">${FHD.escapeHtml(position.workMode)}</span>
+            </div>
+            <p class="text-sm text-[#475569] line-clamp-2">${FHD.escapeHtml(position.shortDescription || '')}</p>
+        </div>
+        <ul class="hosting-features">
+            <li><i data-lucide="map-pin" class="inline-icon text-primary"></i> ${FHD.escapeHtml(position.location || 'Remote')}</li>
+            <li><i data-lucide="users" class="inline-icon text-primary"></i> ${position.numberOfOpenings} opening${position.numberOfOpenings > 1 ? 's' : ''}</li>
+            ${position.applicationDeadline ? `<li><i data-lucide="calendar" class="inline-icon text-primary"></i> Apply by ${new Date(position.applicationDeadline).toLocaleDateString()}</li>` : ''}
+        </ul>
+        <a href="career.html?slug=${encodeURIComponent(position.slug)}" class="btn-primary w-full justify-center">
+            <i data-lucide="arrow-right"></i> View Details
+        </a>
+      </article>
+    `;
+
+    async function loadPositions() {
+        try {
+            const response = await fetch(`${FHD_CONFIG.API_BASE_URL}/careers`);
+            const data = await response.json();
+            
+            if (!data.success || !data.data || !data.data.positions.length) {
+                positionsContainer.innerHTML = '';
+                noPositionsDiv.classList.remove('hidden');
+                return;
+            }
+            
+            positionsContainer.innerHTML = data.data.positions.map(positionCard).join('');
+            window.lucide?.createIcons();
+        } catch (error) {
+            positionsContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500">Unable to load positions. Please try again later.</div>`;
+            console.error('Error loading positions:', error);
+        }
+    }
+
+    loadPositions();
+    </script>
+</body>
+</html>
