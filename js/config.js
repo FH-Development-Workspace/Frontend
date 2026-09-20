@@ -20,7 +20,7 @@ const isLocalDevelopment = localHosts.includes(window.location.hostname);
 
 window.FHD_CONFIG = Object.assign({
   API_BASE: isLocalDevelopment ? 'http://localhost:5000/api/v1' : 'https://api.fh-development.xyz/api/v1',
-  API_FALLBACK_BASE: 'https://backend-mczn.onrender.com/api/v1',
+  API_FALLBACK_BASE: 'https://api.fh-development.xyz/api/v1',
   SITE_NAME: 'FH Developments',
   SITE_URL: 'https://fh-development.xyz',
   LEGAL_URL: 'https://legal.fh-development.xyz',

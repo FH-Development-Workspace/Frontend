@@ -537,4 +537,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.FHD?.initPage) FHD.initPage();
 });
 
-console.log('%c FH Development ', 'background:#2563EB;color:white;font-weight:bold;border-radius:4px;padding:2px 8px;', '| Static site on GitHub Pages · API: ' + (window.FHD_CONFIG?.API_BASE || ''));
+// Application initialization - branding removed per requirements

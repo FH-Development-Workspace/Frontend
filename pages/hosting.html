@@ -63,8 +63,8 @@
     const formatMemory = (ram) => ram >= 1024 ? `${ram / 1024}GB` : `${ram}MB`;
 
     const planCard = (plan) => `
-      <article class="relative p-7 rounded-2xl bg-white border ${plan.recommended ? 'border-primary shadow-blue' : 'border-[#E2E8F0]'} flex flex-col">
-        ${plan.recommended ? '<span class="absolute -top-3 left-6 badge badge-blue">Recommended</span>' : ''}
+      <article class="hosting-plan-card ${plan.recommended ? 'recommended' : ''}">
+        ${plan.recommended ? '<span class="hosting-recommended-badge">Recommended</span>' : ''}
         <div class="flex items-start justify-between gap-4 mb-5">
             <div>
                 <h3 class="font-display font-bold text-2xl text-[#0F172A]">${FHD.escapeHtml(plan.name)}</h3>
@@ -72,11 +72,10 @@
             </div>
             <span class="text-primary"><i data-lucide="server"></i></span>
         </div>
-        <div class="mb-7">
-            <span class="font-display font-black text-4xl text-[#0F172A]">£${Number(plan.priceGBP).toFixed(2)}</span>
-            <span class="text-[#64748B]">/month</span>
+        <div class="hosting-price">
+            £${Number(plan.priceGBP).toFixed(2)}<span>/month</span>
         </div>
-        <ul class="space-y-3 text-sm text-[#475569] mb-8 flex-1">
+        <ul class="hosting-features">
             <li><i data-lucide="memory-stick" class="inline-icon text-primary"></i> ${formatMemory(plan.ramMB)} RAM</li>
             <li><i data-lucide="cpu" class="inline-icon text-primary"></i> ${plan.cpuPercent}% CPU</li>
             <li><i data-lucide="hard-drive" class="inline-icon text-primary"></i> ${plan.storageGB}GB Storage</li>
@@ -84,7 +83,7 @@
             <li><i data-lucide="archive" class="inline-icon text-primary"></i> ${plan.backupLimit} Backup${plan.backupLimit === 1 ? '' : 's'}</li>
             <li><i data-lucide="messages-square" class="inline-icon text-primary"></i> Mod Mail available${plan.slug === 'starter' ? ' (limited CPU capacity)' : ''}</li>
         </ul>
-        <button class="btn-primary w-full justify-center" type="button" data-plan-id="${plan.id}" data-plan-name="${FHD.escapeHtml(plan.name)}">
+        <button class="btn-primary w-full justify-center" type="button" data-plan-id="${plan.id}" data-plan-name="${FHD.escapeHtml(plan.name)}" data-plan-slug="${FHD.escapeHtml(plan.slug)}">
             <i data-lucide="arrow-up-right"></i> Request Hosting
         </button>
       </article>
@@ -104,20 +103,131 @@
                 button.addEventListener('click', async () => {
                     const planId = button.dataset.planId;
                     const planName = button.dataset.planName;
-                    const serviceName = prompt(`Enter a name for your ${planName} hosting service:`);
-                    if (!serviceName) return;
+                    
+                    // Create a modal form for detailed hosting request
+                    const modal = document.createElement('div');
+                    modal.className = 'hosting-modal-overlay';
+                    modal.innerHTML = `
+                        <div class="hosting-modal-content">
+                            <h2 class="hosting-modal-title">Request ${planName} Hosting</h2>
+                            <form id="hosting-request-form">
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Service Name *</label>
+                                    <input type="text" name="serviceName" required class="hosting-form-input" placeholder="e.g., My Discord Bot">
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Repository URL (optional)</label>
+                                    <input type="url" name="repoUrl" class="hosting-form-input" placeholder="https://github.com/your-repo">
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Runtime</label>
+                                    <select name="runtime" class="hosting-form-select">
+                                        <option value="">Select runtime...</option>
+                                        <option value="Python">Python</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Project Description</label>
+                                    <textarea name="projectDescription" rows="3" class="hosting-form-textarea" placeholder="Brief description of your project..."></textarea>
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Environment Notes (optional)</label>
+                                    <textarea name="environmentNotes" rows="2" class="hosting-form-textarea" placeholder="Any specific environment requirements..."></textarea>
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Additional Notes (optional)</label>
+                                    <textarea name="additionalNotes" rows="2" class="hosting-form-textarea" placeholder="Any other requirements or notes..."></textarea>
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Email (optional)</label>
+                                    <input type="email" name="email" class="hosting-form-input" placeholder="your@email.com">
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Discord Username (optional)</label>
+                                    <input type="text" name="discordUsername" class="hosting-form-input" placeholder="username#0000">
+                                </div>
+                                <div class="hosting-form-group">
+                                    <label class="hosting-form-label">Expected Workload (optional)</label>
+                                    <input type="text" name="expectedWorkload" class="hosting-form-input" placeholder="e.g., Light, Medium, Heavy">
+                                </div>
+                                <div class="hosting-form-checkbox-group">
+                                    <label class="hosting-form-checkbox-label">
+                                        <input type="checkbox" name="modMailRequired" class="hosting-form-checkbox">
+                                        Mod Mail Required
+                                    </label>
+                                    <label class="hosting-form-checkbox-label">
+                                        <input type="checkbox" name="databaseRequired" class="hosting-form-checkbox">
+                                        Database Required
+                                    </label>
+                                </div>
+                                <div class="hosting-form-actions">
+                                    <button type="button" id="cancel-request" class="btn-secondary flex-1">Cancel</button>
+                                    <button type="submit" class="btn-primary flex-1">Submit Request</button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
 
-                    try {
-                        await FHD.api.requestHosting({ planId, serviceName });
-                        alert(`Hosting request for "${serviceName}" submitted successfully! Our team will review your request and contact you at hosting@fh-development.xyz.`);
-                    } catch (error) {
-                        if (error.status === 401) {
-                            alert('Please log in to submit a hosting request.');
-                            window.location.assign('../auth/login.html');
-                        } else {
-                            alert(error.message || 'Unable to submit hosting request. Please try again.');
+                    const form = modal.querySelector('#hosting-request-form');
+                    const cancelBtn = modal.querySelector('#cancel-request');
+
+                    cancelBtn.addEventListener('click', () => {
+                        document.body.removeChild(modal);
+                    });
+
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) document.body.removeChild(modal);
+                    });
+
+                    form.addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const formData = new FormData(form);
+                        const payload = {
+                            planId: planId,
+                            serviceName: formData.get('serviceName'),
+                            repoUrl: formData.get('repoUrl') || '',
+                            environmentNotes: formData.get('environmentNotes') || '',
+                            additionalNotes: formData.get('additionalNotes') || '',
+                        };
+                        
+                        // Add optional fields if provided
+                        const runtime = formData.get('runtime');
+                        if (runtime) payload.runtime = runtime;
+                        
+                        const projectDescription = formData.get('projectDescription');
+                        if (projectDescription) payload.projectDescription = projectDescription;
+                        
+                        const email = formData.get('email');
+                        if (email) payload.email = email;
+                        
+                        const discordUsername = formData.get('discordUsername');
+                        if (discordUsername) payload.discordUsername = discordUsername;
+                        
+                        const expectedWorkload = formData.get('expectedWorkload');
+                        if (expectedWorkload) payload.expectedWorkload = expectedWorkload;
+                        
+                        const modMailRequired = formData.get('modMailRequired');
+                        if (modMailRequired) payload.modMailRequired = modMailRequired === 'on';
+                        
+                        const databaseRequired = formData.get('databaseRequired');
+                        if (databaseRequired) payload.databaseRequired = databaseRequired === 'on';
+
+                        try {
+                            await FHD.api.requestHosting(payload);
+                            document.body.removeChild(modal);
+                            alert(`Hosting request for "${payload.serviceName}" submitted successfully! Our team will review your request and contact you at hosting@fh-development.xyz.`);
+                        } catch (error) {
+                            if (error.status === 401) {
+                                alert('Please log in to submit a hosting request.');
+                                window.location.assign('../auth/login.html');
+                            } else {
+                                alert(error.message || 'Unable to submit hosting request. Please try again.');
+                            }
                         }
-                    }
+                    });
                 });
             });
         } catch (error) {

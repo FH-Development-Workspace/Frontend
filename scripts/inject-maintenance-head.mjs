@@ -41,7 +41,6 @@ for (const fp of walk(ROOT)) {
       );
       fs.writeFileSync(fp, html, 'utf8');
       updated++;
-      console.log('added preview:', path.relative(ROOT, fp));
     }
     continue;
   }
@@ -62,6 +61,5 @@ for (const fp of walk(ROOT)) {
 
   fs.writeFileSync(fp, html, 'utf8');
   updated++;
-  console.log('injected:', path.relative(ROOT, fp));
 }
-console.log(`Done. ${updated} file(s) updated.`);
+// Script completion

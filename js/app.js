@@ -807,12 +807,14 @@ window.FHD = window.FHD || {};
 
     async authLogin() {
       const form = document.querySelector('[data-form="login"]');
+      const errorDiv = document.getElementById('login-error');
       if (!form) return;
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = form.querySelector('[type="submit"]');
         const orig = btn?.textContent;
         if (btn) { btn.disabled = true; btn.textContent = 'Signing in...'; }
+        if (errorDiv) errorDiv.classList.add('hidden');
         try {
           const fd = new FormData(form);
           const data = await api().login({ email: fd.get('email'), password: fd.get('password') });
@@ -822,7 +824,12 @@ window.FHD = window.FHD || {};
           FHD.toast('Signed in successfully!', 'success');
           setTimeout(() => { window.location.href = FHD.pageUrl('index.html'); }, 1000);
         } catch (err) {
-          FHD.toast(err.message || 'Invalid credentials', 'error');
+          const msg = err.message || 'Invalid email or password';
+          if (errorDiv) {
+            errorDiv.textContent = msg;
+            errorDiv.classList.remove('hidden');
+          }
+          FHD.toast(msg, 'error');
         } finally {
           if (btn) { btn.disabled = false; btn.textContent = orig; }
         }
