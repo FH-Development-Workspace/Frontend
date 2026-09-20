@@ -90,10 +90,21 @@ h6 {
   margin-bottom: 1rem;
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 4vw, 2.5rem); }
-h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
-h4 { font-size: clamp(1.1rem, 2.5vw, 1.5rem); }
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+h4 {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+}
 
 code,
 pre,
@@ -950,11 +961,11 @@ pre,
 
 /* Accordion icon rotation */
 .accordion-header.active .accordion-icon svg,
-.accordion-header.active > svg {
+.accordion-header.active>svg {
   transform: rotate(180deg);
 }
 
-.accordion-header > svg,
+.accordion-header>svg,
 .accordion-icon svg {
   transition: transform 0.3s ease;
 }
@@ -1174,6 +1185,7 @@ pre,
 }
 
 @media (max-width: 768px) {
+
   .container,
   .container-sm,
   .container-lg {
@@ -1201,14 +1213,22 @@ pre,
 }
 
 @media (max-width: 1024px) {
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
-  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
+
   .grid-4,
   .grid-3,
-  .grid-2 { grid-template-columns: 1fr; }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── Improved Accessibility ───────────────────────────────── */
@@ -1337,7 +1357,7 @@ textarea::placeholder {
     left: 0;
     transform: translateX(0) translateY(8px);
   }
-  
+
   .dropdown-menu.open {
     transform: translateX(0) translateY(0);
   }
@@ -1394,8 +1414,13 @@ footer {
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 .spinner {
@@ -1408,7 +1433,9 @@ footer {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Improved Toast Notifications ─────────────────────────── */
@@ -1442,6 +1469,7 @@ footer {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -1649,8 +1677,13 @@ footer {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
@@ -1658,6 +1691,7 @@ footer {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1711,6 +1745,7 @@ footer {
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1821,12 +1856,12 @@ footer {
   footer {
     padding: 48px 0 24px;
   }
-  
+
   .footer-content {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
@@ -1950,7 +1985,7 @@ footer {
   .fhd-generated-nav .desktop-nav {
     display: none;
   }
-  
+
   .fhd-generated-nav .mobile-nav {
     display: flex;
   }
@@ -1960,13 +1995,10 @@ footer {
   .fhd-generated-nav .desktop-nav {
     display: flex;
   }
-  
+
   .fhd-generated-nav .mobile-nav {
     display: none;
   }
-}
-  background: linear-gradient(90deg, var(--color-primary), var(--color-sky));
-  transition: width 0.6s ease;
 }
 
 /* ── Responsive Helpers ───────────────────────────────────── */
