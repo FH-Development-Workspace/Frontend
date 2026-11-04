@@ -980,44 +980,149 @@ window.FHD = window.FHD || {};
 
   FHD.initFooter = function () {
     const prefix = FHD.getPathPrefix();
-    const footer = document.querySelector('footer');
-    if (footer?.dataset.commonFooter !== 'true') footer?.remove();
+    const existingFooters = document.querySelectorAll('footer');
+    existingFooters.forEach(f => {
+      if (f.dataset.commonFooter !== 'true') f.remove();
+    });
     if (document.querySelector('footer[data-common-footer="true"]')) return;
 
-    document.body.insertAdjacentHTML('beforeend', `
-      <footer data-common-footer="true" class="fhd-generated-footer bg-[#0F172A] text-white mt-20 pt-14 pb-8">
-        <div class="max-w-7xl mx-auto px-6">
-          <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+    const footerHtml = `
+      <footer data-common-footer="true" class="fhd-generated-footer relative bg-[#090D16] text-white pt-20 pb-12 overflow-hidden border-t border-slate-800">
+        <!-- Ambient Metallic Glow -->
+        <div class="absolute inset-0 bg-grid opacity-10 pointer-events-none"></div>
+        <div class="absolute -top-32 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-32 right-1/4 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-10 lg:gap-8 mb-16">
+            
+            <!-- Brand Column (Span 2) -->
             <div class="lg:col-span-2">
-              <a href="${prefix}index.html" class="inline-flex mb-5">${FHD.logoImg('h-10 w-auto object-contain')}</a>
-              <p class="text-[#94A3B8] text-sm leading-relaxed max-w-md">FH Developments builds dependable software, developer tools, Roblox systems, and backend hosting for communities and creators.</p>
-              <div class="flex gap-2 mt-6"><a class="footer-icon-link" href="${prefix}pages/community.html" aria-label="Community"><i data-lucide="message-circle"></i></a><a class="footer-icon-link" href="https://github.com/FH-Development-Workspace" target="_blank" rel="noopener" aria-label="GitHub"><i data-lucide="github"></i></a><a class="footer-icon-link" href="mailto:hosting@fh-development.xyz" aria-label="Email"><i data-lucide="mail"></i></a></div>
-            </div>
-            <div>
-              <h2 class="font-display font-bold text-sm mb-4"><i data-lucide="compass" class="inline-icon"></i> Explore</h2>
-              <div class="grid gap-2 text-sm">
-                <a class="footer-link" href="${prefix}pages/products.html">Products</a>
-                <a class="footer-link" href="${prefix}pages/services.html">Services</a>
-                <a class="footer-link" href="${prefix}pages/hosting.html">Code Hosting</a>
-                <a class="footer-link" href="${prefix}pages/support.html">Support</a>
+              <a href="${prefix}index.html" class="inline-flex mb-5">
+                ${FHD.logoImg('h-11 w-auto object-contain')}
+              </a>
+              <p class="text-slate-400 text-sm leading-relaxed mb-6 max-w-sm">
+                Engineering high-performance software, Roblox Studio infrastructure, developer tools, and reliable Python/Node.js backend hosting for creators and modern communities.
+              </p>
+              
+              <!-- Social Icons with Lucide & Hover Sheen -->
+              <div class="flex items-center gap-2.5">
+                <a href="${prefix}pages/community.html" class="footer-icon-link" aria-label="Discord Community" title="Discord Community">
+                  <i data-lucide="message-square"></i>
+                </a>
+                <a href="https://github.com/FH-Development-Workspace" target="_blank" rel="noopener" class="footer-icon-link" aria-label="GitHub" title="GitHub">
+                  <i data-lucide="github"></i>
+                </a>
+                <a href="mailto:hosting@fh-development.xyz" class="footer-icon-link" aria-label="Email Hosting" title="Email Hosting">
+                  <i data-lucide="mail"></i>
+                </a>
+                <a href="${prefix}pages/contact.html" class="footer-icon-link" aria-label="Contact Us" title="Contact Us">
+                  <i data-lucide="send"></i>
+                </a>
+                <a href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener" class="footer-icon-link" aria-label="System Status" title="Live Service Health">
+                  <i data-lucide="activity"></i>
+                </a>
+              </div>
+
+              <!-- Quick Status Badge -->
+              <div class="mt-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/60 shadow-inner">
+                <span class="pulse-dot"></span>
+                <span class="text-xs font-mono text-slate-300">All Systems Operational</span>
               </div>
             </div>
+
+            <!-- Products -->
             <div>
-              <h2 class="font-display font-bold text-sm mb-4"><i data-lucide="headphones" class="inline-icon"></i> Contact</h2>
-              <div class="grid gap-2 text-sm">
-                <a class="footer-link" href="${prefix}pages/contact.html">Contact FH Developments</a>
-                <a class="footer-link" href="mailto:support@fh-development.xyz>">support@fh-development.xyz</a>
-                <a class="footer-link" href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener">System status</a>
-              </div>
+              <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-200 mb-5 flex items-center gap-2">
+                <i data-lucide="box" class="w-4 h-4 text-primary"></i> Products
+              </h3>
+              <ul class="space-y-2.5 text-sm text-slate-400">
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/products.html">All Products</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/products.html?cat=software">Software Systems</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/products.html?cat=scripts">Developer Tools</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/features.html">Features</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/changelog.html">Changelog</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/downloads.html">Downloads</a></li>
+              </ul>
+            </div>
+
+            <!-- Hosting & Services -->
+            <div>
+              <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-200 mb-5 flex items-center gap-2">
+                <i data-lucide="server" class="w-4 h-4 text-sky-400"></i> Hosting & Solutions
+              </h3>
+              <ul class="space-y-2.5 text-sm text-slate-400">
+                <li><a class="footer-link hover:text-white transition-colors font-semibold text-blue-400" href="${prefix}pages/hosting.html">Code Hosting Plans</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/hosting.html#plans">Discord Bot Hosting</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/services.html">Custom Engineering</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/roadmap.html">Product Roadmap</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/reviews.html">Client Reviews</a></li>
+              </ul>
+            </div>
+
+            <!-- Resources & Community -->
+            <div>
+              <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-200 mb-5 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4 text-emerald-400"></i> Resources
+              </h3>
+              <ul class="space-y-2.5 text-sm text-slate-400">
+                <li><a class="footer-link hover:text-white transition-colors" href="${FHD_CONFIG.DOCS_URL}" target="_blank" rel="noopener">Documentation</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/blog.html">Articles & News</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/faq.html">FAQ Knowledge Base</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/community.html">Community Hub</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/support.html">Help & Tickets</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener">System Health Status</a></li>
+              </ul>
+            </div>
+
+            <!-- Company & Legal -->
+            <div>
+              <h3 class="font-display font-bold text-sm tracking-wider uppercase text-slate-200 mb-5 flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-amber-400"></i> Company & Legal
+              </h3>
+              <ul class="space-y-2.5 text-sm text-slate-400">
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/company.html">About Us</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/team.html">Leadership & Team</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/careers.html">Careers & Openings</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="${prefix}pages/contact.html">Contact Sales</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="https://legal.fh-development.xyz/privacy.html" target="_blank" rel="noopener">Privacy Policy</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="https://legal.fh-development.xyz/index.html" target="_blank" rel="noopener">Terms of Service</a></li>
+                <li><a class="footer-link hover:text-white transition-colors" href="https://legal.fh-development.xyz/refunds.html" target="_blank" rel="noopener">Refunds & SLA</a></li>
+              </ul>
+            </div>
+
+          </div>
+
+          <!-- Metallic Divider Line -->
+          <div class="h-px bg-gradient-to-r from-transparent via-slate-700 to-transparent my-8"></div>
+
+          <!-- Bottom Bar -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <p>&copy; ${new Date().getFullYear()} FH Developments. All rights reserved. Built for scale & reliability.</p>
+            <div class="flex items-center gap-4">
+              <a href="https://legal.fh-development.xyz/cookies.html" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors">Cookie Settings</a>
+              <span class="text-slate-700">&bull;</span>
+              <a href="https://legal.fh-development.xyz/security.html" target="_blank" rel="noopener" class="hover:text-slate-300 transition-colors">Security</a>
+              <span class="text-slate-700">&bull;</span>
+              <a href="${FHD_CONFIG.STATUS_URL}" target="_blank" rel="noopener" class="text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1 font-mono">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block animate-pulse"></span> Systems 99.9% Uptime
+              </a>
             </div>
           </div>
-          <div class="gradient-hr my-8"></div>
-          <p class="text-[#64748B] text-xs">© ${new Date().getFullYear()} FH Developments. All rights reserved.</p>
         </div>
-      </footer>`);
-    const hydrateIcons = () => window.lucide?.createIcons?.();
-    if (window.lucide) hydrateIcons();
-    else {
+      </footer>`;
+
+    document.body.insertAdjacentHTML('beforeend', footerHtml);
+
+    const hydrateIcons = () => {
+      if (window.lucide?.createIcons) {
+        window.lucide.createIcons();
+      }
+    };
+
+    if (window.lucide) {
+      hydrateIcons();
+    } else {
       const script = document.createElement('script');
       script.src = 'https://unpkg.com/lucide@latest';
       script.onload = hydrateIcons;

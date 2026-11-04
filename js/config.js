@@ -64,7 +64,14 @@ FHD.docsUrl = function (path) {
 
 FHD.logoImg = function (className) {
   const cls = className || 'h-10 w-auto object-contain';
-  return `<span class="fhd-logo-wrap"><img src="${FHD_CONFIG.LOGO_URL}" alt="${FHD.escapeHtml(FHD_CONFIG.SITE_NAME)}" class="${cls}" onerror="this.hidden=true;this.nextElementSibling.hidden=false" /><span class="fhd-logo-fallback" hidden>FH <strong>DEVELOPMENTS</strong></span></span>`;
+  const localFallbackLogo = FHD.getPathPrefix() + 'assets/logos/Real_White_Logo.png';
+  return `<span class="fhd-logo-wrap inline-flex items-center gap-2">
+    <img src="${FHD_CONFIG.LOGO_URL}" alt="${FHD.escapeHtml(FHD_CONFIG.SITE_NAME)}" class="${cls}" onerror="if(this.dataset.triedLocal){this.style.display='none';this.nextElementSibling.style.display='inline-flex';}else{this.dataset.triedLocal='1';this.src='${localFallbackLogo}';}" />
+    <span class="fhd-logo-fallback flex items-center gap-1.5 font-display text-lg tracking-tight font-extrabold text-white" style="display:none;">
+      <span class="px-2 py-0.5 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm font-bold text-sm">FH</span>
+      <span class="text-slate-100 font-bold tracking-wider text-sm uppercase">Developments</span>
+    </span>
+  </span>`;
 };
 
 FHD.getQueryParam = function (key) {

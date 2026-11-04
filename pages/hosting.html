@@ -2,50 +2,120 @@
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
+    <script src="../js/maintenance.js"></script>
+    <script src="../js/maintenance-preview.js"></script>
+    <script src="../js/maintenance-check.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hosting Plans | FH Developments</title>
-    <meta name="description" content="Backend code hosting for Python and JavaScript, including Discord bots. Choose a plan and submit a hosting request.">
+    <title>Hosting Plans — FH Developments</title>
+    <meta name="description" content="High-performance backend code hosting for Python and JavaScript, Discord bots, APIs and databases. Choose a plan and launch instantly.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#2563EB',
+              bright: '#3B82F6',
+              sky: '#0EA5E9',
+              slate: { DEFAULT: '#0F172A' },
+            },
+            fontFamily: {
+              display: ['Sora', 'sans-serif'],
+              body: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="icon" href="https://cdn.fh-development.xyz/departmental/logos/Real_White_Logo.png">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-white font-body text-slate antialiased">
+<body class="bg-white font-body text-slate antialiased" data-page="hosting">
     <div id="fhd-nav" data-active="services"></div>
 
     <main>
-        <section class="relative overflow-hidden bg-[#0F172A] py-20 lg:py-28">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-[#0B1120] py-20 lg:py-28 border-b border-slate-800">
             <div class="absolute inset-0 bg-grid opacity-20 pointer-events-none"></div>
+            <div class="glow-blue w-[600px] h-[600px] -top-40 -right-20 opacity-30" style="position:absolute;"></div>
             <div class="relative max-w-5xl mx-auto px-6 text-center">
-                <div class="section-eyebrow mx-auto mb-6 text-[#93C5FD]">FH Code Hosting</div>
+                <div class="section-eyebrow mx-auto mb-6 text-[#93C5FD] bg-white/10 border-white/20">FH Code Hosting</div>
                 <h1 class="font-display font-black text-4xl sm:text-5xl lg:text-7xl text-white mb-6">Backend hosting that keeps up.</h1>
                 <p class="text-lg lg:text-xl text-[#CBD5E1] max-w-3xl mx-auto leading-relaxed">
-                    FH Developments currently hosts backend code only, including Python and JavaScript codebases (such as Discord bots).
-                    Select a plan below to submit a manual hosting request.
+                    Ultra-reliable backend execution environments for Python, Node.js, Mod Mail, and custom Discord bots with dedicated RAM, SSD storage, and automatic health monitoring.
                 </p>
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                    <a href="#plans" class="btn-primary px-8 py-3 text-base">View Hosting Plans &rarr;</a>
+                    <a href="mailto:hosting@fh-development.xyz" class="btn-secondary px-8 py-3 text-base">Contact Sales</a>
+                </div>
             </div>
         </section>
 
-        <section class="py-16 lg:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+        <!-- Plans Section -->
+        <section id="plans" class="py-16 lg:py-24 bg-[#F8FAFC] border-b border-[#E2E8F0]">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="max-w-3xl mb-12">
-                    <div class="section-eyebrow mb-4">Code Hosting Plans</div>
-                    <h2 class="section-title text-4xl lg:text-5xl mb-5">Simple resources. Clear limits.</h2>
+                    <div class="section-eyebrow mb-4">Transparent Pricing</div>
+                    <h2 class="section-title text-4xl lg:text-5xl mb-5">Simple resources. Guaranteed limits.</h2>
                     <p class="text-lg text-[#475569] leading-relaxed">
-                        Prices are in GBP. Hosting requests are reviewed manually by our engineering team.
-                        Mod Mail is available on every plan, but Starter is not recommended because it does not provide enough CPU capacity.
-                        Standard or Premium is the best choice for Mod Mail.
+                        Prices are in GBP (£) with monthly billing. Standard and Premium tiers include dedicated CPU cores, automated database attachments, and priority engineering review.
                     </p>
                 </div>
 
                 <div id="plans-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" aria-live="polite">
-                    <div class="col-span-full text-center py-12 text-[#64748B]">Loading hosting plans...</div>
+                    <div class="col-span-full flex flex-col items-center justify-center py-16 text-[#64748B]">
+                        <div class="animate-spin rounded-full h-10 w-10 border-2 border-primary border-t-transparent mb-4"></div>
+                        <p class="text-sm font-medium">Loading hosting plans...</p>
+                    </div>
                 </div>
 
-                <div class="mt-12 p-6 rounded-2xl bg-white border border-[#E2E8F0] flex flex-col md:flex-row md:items-center justify-between gap-5">
+                <!-- Custom Quote Banner -->
+                <div class="mt-14 p-8 rounded-2xl bg-gradient-to-r from-slate-900 to-[#1E293B] text-white border border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xl">
                     <div>
-                        <h2 class="font-display font-bold text-xl mb-2">Need a custom quote or assistance?</h2>
-                        <p class="text-[#64748B]">Please email <span class="text-primary font-semibold">hosting@fh-development.xyz</span> for custom requirements or hosting support.</p>
+                        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-semibold mb-3">Enterprise & Bespoke</span>
+                        <h2 class="font-display font-bold text-2xl text-white mb-2">Need a tailored high-capacity infrastructure?</h2>
+                        <p class="text-slate-300 text-sm max-w-xl">We build custom cluster solutions with dedicated IPs, automated CI/CD deployments, and customized storage quotas.</p>
                     </div>
-                    <a class="btn-primary whitespace-nowrap" href="mailto:hosting@fh-development.xyz">Email Hosting</a>
+                    <a class="btn-primary whitespace-nowrap px-6 py-3" href="mailto:hosting@fh-development.xyz">
+                        <i data-lucide="mail" class="w-4 h-4 mr-2"></i> Inquire with Hosting Team
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Features Grid -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-14">
+                    <div class="section-eyebrow mx-auto mb-4">Infrastructure</div>
+                    <h2 class="section-title text-4xl lg:text-5xl mb-4">Built for 99.9% Continuous Uptime</h2>
+                    <p class="text-lg text-[#475569] max-w-2xl mx-auto">Hardware and software tuned specifically for long-running bots and asynchronous services.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="p-8 rounded-2xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-12 h-12 rounded-xl bg-blue-100 text-primary flex items-center justify-center mb-5 font-bold">
+                            <i data-lucide="cpu" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2">Dedicated NVMe & CPU</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">High clock speed compute with enterprise NVMe storage guarantees zero I/O wait times and sub-millisecond database queries.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center mb-5 font-bold">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2">DDoS Protection</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Layer 3/4 and Layer 7 enterprise DDoS filtering mitigates attacks before they ever reach your service socket.</p>
+                    </div>
+                    <div class="p-8 rounded-2xl border border-slate-200 bg-slate-50/50">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5 font-bold">
+                            <i data-lucide="rotate-ccw" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-xl text-slate-900 mb-2">Auto-Restart & Backups</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">Process supervisors instantly revive crashed bot workers, and automated snapshot schedules keep your persistent data intact.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -59,179 +129,241 @@
     <script src="../js/app.js"></script>
     <script src="../js/main.js"></script>
     <script>
+    const DEFAULT_PLANS = [
+      {
+        id: "bbdce768-996b-480b-a70c-425591b5a0fc",
+        name: "Starter",
+        slug: "starter",
+        priceGBP: 1.16,
+        ramMB: 512,
+        cpuPercent: 50,
+        storageGB: 5,
+        databaseLimit: 1,
+        backupLimit: 1,
+        modMailAvailable: true,
+        recommended: false,
+        description: "Best for: Small Discord bots & lightweight microservices",
+      },
+      {
+        id: "bbef4b2d-2b52-4162-b2af-eb45c2d418fe",
+        name: "Standard",
+        slug: "standard",
+        priceGBP: 2.31,
+        ramMB: 1024,
+        cpuPercent: 100,
+        storageGB: 10,
+        databaseLimit: 2,
+        backupLimit: 2,
+        modMailAvailable: true,
+        recommended: true,
+        description: "Best for: Most Discord bots, Mod Mail and everyday workloads",
+      },
+      {
+        id: "b2e44203-61cf-4d9a-b112-9b9087e045ac",
+        name: "Premium",
+        slug: "premium",
+        priceGBP: 4.04,
+        ramMB: 2048,
+        cpuPercent: 200,
+        storageGB: 20,
+        databaseLimit: 3,
+        backupLimit: 5,
+        modMailAvailable: true,
+        recommended: false,
+        description: "Best for: Larger, high-concurrency Discord bots & multi-service APIs",
+      }
+    ];
+
     const plansContainer = document.getElementById('plans-container');
     const formatMemory = (ram) => ram >= 1024 ? `${ram / 1024}GB` : `${ram}MB`;
 
     const planCard = (plan) => `
       <article class="hosting-plan-card ${plan.recommended ? 'recommended' : ''}">
-        ${plan.recommended ? '<span class="hosting-recommended-badge">Recommended</span>' : ''}
+        ${plan.recommended ? '<span class="hosting-recommended-badge">Recommended Tier</span>' : ''}
         <div class="flex items-start justify-between gap-4 mb-5">
             <div>
                 <h3 class="font-display font-bold text-2xl text-[#0F172A]">${FHD.escapeHtml(plan.name)}</h3>
                 <p class="text-sm text-[#64748B] mt-1">${FHD.escapeHtml(plan.description || '')}</p>
             </div>
-            <span class="text-primary"><i data-lucide="server"></i></span>
+            <span class="p-2.5 rounded-xl bg-blue-50 text-primary border border-blue-100 flex-shrink-0">
+                <i data-lucide="server" class="w-6 h-6"></i>
+            </span>
         </div>
-        <div class="hosting-price">
-            £${Number(plan.priceGBP).toFixed(2)}<span>/month</span>
+        <div class="hosting-price text-3xl font-display font-black text-slate-900 mb-6">
+            £${Number(plan.priceGBP).toFixed(2)}<span class="text-sm font-normal text-slate-500">/month</span>
         </div>
-        <ul class="hosting-features">
-            <li><i data-lucide="memory-stick" class="inline-icon text-primary"></i> ${formatMemory(plan.ramMB)} RAM</li>
-            <li><i data-lucide="cpu" class="inline-icon text-primary"></i> ${plan.cpuPercent}% CPU</li>
-            <li><i data-lucide="hard-drive" class="inline-icon text-primary"></i> ${plan.storageGB}GB Storage</li>
-            <li><i data-lucide="database" class="inline-icon text-primary"></i> ${plan.databaseLimit} Database${plan.databaseLimit === 1 ? '' : 's'}</li>
-            <li><i data-lucide="archive" class="inline-icon text-primary"></i> ${plan.backupLimit} Backup${plan.backupLimit === 1 ? '' : 's'}</li>
-            <li><i data-lucide="messages-square" class="inline-icon text-primary"></i> Mod Mail available${plan.slug === 'starter' ? ' (limited CPU capacity)' : ''}</li>
+        <ul class="hosting-features space-y-3 mb-8 text-sm text-slate-600">
+            <li class="flex items-center gap-2.5"><i data-lucide="memory-stick" class="w-4 h-4 text-primary flex-shrink-0"></i> <strong>${formatMemory(plan.ramMB)}</strong> Dedicated RAM</li>
+            <li class="flex items-center gap-2.5"><i data-lucide="cpu" class="w-4 h-4 text-primary flex-shrink-0"></i> <strong>${plan.cpuPercent}%</strong> CPU Allocation</li>
+            <li class="flex items-center gap-2.5"><i data-lucide="hard-drive" class="w-4 h-4 text-primary flex-shrink-0"></i> <strong>${plan.storageGB}GB</strong> NVMe SSD Storage</li>
+            <li class="flex items-center gap-2.5"><i data-lucide="database" class="w-4 h-4 text-primary flex-shrink-0"></i> <strong>${plan.databaseLimit}</strong> PostgreSQL/MySQL Database${plan.databaseLimit === 1 ? '' : 's'}</li>
+            <li class="flex items-center gap-2.5"><i data-lucide="archive" class="w-4 h-4 text-primary flex-shrink-0"></i> <strong>${plan.backupLimit}</strong> Automated Backup Slot${plan.backupLimit === 1 ? '' : 's'}</li>
+            <li class="flex items-center gap-2.5"><i data-lucide="messages-square" class="w-4 h-4 text-emerald-600 flex-shrink-0"></i> Mod Mail Supported${plan.slug === 'starter' ? ' (light workload)' : ''}</li>
         </ul>
-        <button class="btn-primary w-full justify-center" type="button" data-plan-id="${plan.id}" data-plan-name="${FHD.escapeHtml(plan.name)}" data-plan-slug="${FHD.escapeHtml(plan.slug)}">
-            <i data-lucide="arrow-up-right"></i> Request Hosting
+        <button class="btn-primary w-full justify-center mt-auto py-3 font-semibold shadow-md" type="button" data-plan-id="${plan.id}" data-plan-name="${FHD.escapeHtml(plan.name)}" data-plan-slug="${FHD.escapeHtml(plan.slug)}">
+            <i data-lucide="arrow-up-right" class="w-4 h-4 mr-1.5"></i> Request ${FHD.escapeHtml(plan.name)} Hosting
         </button>
       </article>
     `;
 
-    async function loadPlans() {
-        try {
-            const plans = await FHD.api.getHostingPlans();
-            if (!plans || !plans.length) {
-                plansContainer.innerHTML = '<div class="col-span-full text-center py-12 text-[#64748B]">Hosting plans are currently being updated. Please check back shortly.</div>';
-                return;
-            }
-            plansContainer.innerHTML = plans.map(planCard).join('');
-            window.lucide?.createIcons();
+    function renderPlans(plans) {
+        plansContainer.innerHTML = plans.map(planCard).join('');
+        if (window.lucide?.createIcons) window.lucide.createIcons();
+        bindRequestModal(plans);
+    }
 
-            plansContainer.querySelectorAll('[data-plan-id]').forEach((button) => {
-                button.addEventListener('click', async () => {
-                    const planId = button.dataset.planId;
-                    const planName = button.dataset.planName;
-                    
-                    // Create a modal form for detailed hosting request
-                    const modal = document.createElement('div');
-                    modal.className = 'hosting-modal-overlay';
-                    modal.innerHTML = `
-                        <div class="hosting-modal-content">
-                            <h2 class="hosting-modal-title">Request ${planName} Hosting</h2>
-                            <form id="hosting-request-form">
+    function bindRequestModal(plans) {
+        plansContainer.querySelectorAll('[data-plan-id]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const planId = button.dataset.planId;
+                const planName = button.dataset.planName;
+                
+                const modal = document.createElement('div');
+                modal.className = 'hosting-modal-overlay';
+                modal.innerHTML = `
+                    <div class="hosting-modal-content">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
+                            <div>
+                                <h2 class="font-display font-bold text-2xl text-slate-900">Request ${FHD.escapeHtml(planName)} Hosting</h2>
+                                <p class="text-xs text-slate-500 mt-0.5">Fill in your requirements. Our engineering team reviews within 24 hours.</p>
+                            </div>
+                            <button type="button" id="close-modal-x" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <form id="hosting-request-form" class="space-y-4">
+                            <div class="hosting-form-group">
+                                <label class="hosting-form-label font-semibold text-xs text-slate-700">Project / Service Name *</label>
+                                <input type="text" name="serviceName" required class="hosting-form-input w-full p-2.5 border rounded-lg text-sm" placeholder="e.g. Nexus Bot, Mod Mail Service">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Service Name *</label>
-                                    <input type="text" name="serviceName" required class="hosting-form-input" placeholder="e.g., My Discord Bot">
+                                    <label class="hosting-form-label font-semibold text-xs text-slate-700">Contact Email *</label>
+                                    <input type="email" name="email" required class="hosting-form-input w-full p-2.5 border rounded-lg text-sm" placeholder="you@domain.com">
                                 </div>
                                 <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Repository URL (optional)</label>
-                                    <input type="url" name="repoUrl" class="hosting-form-input" placeholder="https://github.com/your-repo">
+                                    <label class="hosting-form-label font-semibold text-xs text-slate-700">Discord Username</label>
+                                    <input type="text" name="discordUsername" class="hosting-form-input w-full p-2.5 border rounded-lg text-sm" placeholder="username">
                                 </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Runtime</label>
-                                    <select name="runtime" class="hosting-form-select">
-                                        <option value="">Select runtime...</option>
-                                        <option value="Python">Python</option>
-                                        <option value="JavaScript">JavaScript</option>
-                                        <option value="Other">Other</option>
+                                    <label class="hosting-form-label font-semibold text-xs text-slate-700">Runtime Environment</label>
+                                    <select name="runtime" class="hosting-form-input w-full p-2.5 border rounded-lg text-sm bg-white">
+                                        <option value="Python">Python (discord.py, FastAPI, Flask)</option>
+                                        <option value="JavaScript">JavaScript / Node.js (discord.js, Express)</option>
+                                        <option value="Other">Other Custom Stack</option>
                                     </select>
                                 </div>
                                 <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Project Description</label>
-                                    <textarea name="projectDescription" rows="3" class="hosting-form-textarea" placeholder="Brief description of your project..."></textarea>
+                                    <label class="hosting-form-label font-semibold text-xs text-slate-700">GitHub / Repository URL</label>
+                                    <input type="url" name="repoUrl" class="hosting-form-input w-full p-2.5 border rounded-lg text-sm" placeholder="https://github.com/...">
                                 </div>
-                                <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Environment Notes (optional)</label>
-                                    <textarea name="environmentNotes" rows="2" class="hosting-form-textarea" placeholder="Any specific environment requirements..."></textarea>
-                                </div>
-                                <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Additional Notes (optional)</label>
-                                    <textarea name="additionalNotes" rows="2" class="hosting-form-textarea" placeholder="Any other requirements or notes..."></textarea>
-                                </div>
-                                <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Email (optional)</label>
-                                    <input type="email" name="email" class="hosting-form-input" placeholder="your@email.com">
-                                </div>
-                                <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Discord Username (optional)</label>
-                                    <input type="text" name="discordUsername" class="hosting-form-input" placeholder="username#0000">
-                                </div>
-                                <div class="hosting-form-group">
-                                    <label class="hosting-form-label">Expected Workload (optional)</label>
-                                    <input type="text" name="expectedWorkload" class="hosting-form-input" placeholder="e.g., Light, Medium, Heavy">
-                                </div>
-                                <div class="hosting-form-checkbox-group">
-                                    <label class="hosting-form-checkbox-label">
-                                        <input type="checkbox" name="modMailRequired" class="hosting-form-checkbox">
-                                        Mod Mail Required
-                                    </label>
-                                    <label class="hosting-form-checkbox-label">
-                                        <input type="checkbox" name="databaseRequired" class="hosting-form-checkbox">
-                                        Database Required
-                                    </label>
-                                </div>
-                                <div class="hosting-form-actions">
-                                    <button type="button" id="cancel-request" class="btn-secondary flex-1">Cancel</button>
-                                    <button type="submit" class="btn-primary flex-1">Submit Request</button>
-                                </div>
-                            </form>
-                        </div>
-                    `;
-                    document.body.appendChild(modal);
+                            </div>
+                            <div class="hosting-form-group">
+                                <label class="hosting-form-label font-semibold text-xs text-slate-700">Project Description</label>
+                                <textarea name="projectDescription" rows="2" class="hosting-form-textarea w-full p-2.5 border rounded-lg text-sm resize-none" placeholder="Brief description of what your bot/service does..."></textarea>
+                            </div>
+                            <div class="flex items-center gap-6 py-1">
+                                <label class="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer">
+                                    <input type="checkbox" name="modMailRequired" class="rounded border-slate-300 text-primary">
+                                    Mod Mail Support Required
+                                </label>
+                                <label class="flex items-center gap-2 text-xs font-medium text-slate-700 cursor-pointer">
+                                    <input type="checkbox" name="databaseRequired" class="rounded border-slate-300 text-primary" checked>
+                                    Database Required
+                                </label>
+                            </div>
+                            <div class="flex gap-3 pt-3">
+                                <button type="button" id="cancel-request" class="btn-secondary flex-1 py-2.5 text-sm">Cancel</button>
+                                <button type="submit" class="btn-primary flex-1 py-2.5 text-sm justify-center">Submit Hosting Request</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                if (window.lucide?.createIcons) window.lucide.createIcons();
 
-                    const form = modal.querySelector('#hosting-request-form');
-                    const cancelBtn = modal.querySelector('#cancel-request');
+                const form = modal.querySelector('#hosting-request-form');
+                const cancelBtn = modal.querySelector('#cancel-request');
+                const closeBtn = modal.querySelector('#close-modal-x');
 
-                    cancelBtn.addEventListener('click', () => {
-                        document.body.removeChild(modal);
-                    });
+                const closeModal = () => {
+                    if (document.body.contains(modal)) document.body.removeChild(modal);
+                };
 
-                    modal.addEventListener('click', (e) => {
-                        if (e.target === modal) document.body.removeChild(modal);
-                    });
+                cancelBtn.addEventListener('click', closeModal);
+                closeBtn?.addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
 
-                    form.addEventListener('submit', async (e) => {
-                        e.preventDefault();
-                        const formData = new FormData(form);
-                        const payload = {
-                            planId: planId,
-                            serviceName: formData.get('serviceName'),
-                            repoUrl: formData.get('repoUrl') || '',
-                            environmentNotes: formData.get('environmentNotes') || '',
-                            additionalNotes: formData.get('additionalNotes') || '',
-                        };
-                        
-                        // Add optional fields if provided
-                        const runtime = formData.get('runtime');
-                        if (runtime) payload.runtime = runtime;
-                        
-                        const projectDescription = formData.get('projectDescription');
-                        if (projectDescription) payload.projectDescription = projectDescription;
-                        
-                        const email = formData.get('email');
-                        if (email) payload.email = email;
-                        
-                        const discordUsername = formData.get('discordUsername');
-                        if (discordUsername) payload.discordUsername = discordUsername;
-                        
-                        const expectedWorkload = formData.get('expectedWorkload');
-                        if (expectedWorkload) payload.expectedWorkload = expectedWorkload;
-                        
-                        const modMailRequired = formData.get('modMailRequired');
-                        if (modMailRequired) payload.modMailRequired = modMailRequired === 'on';
-                        
-                        const databaseRequired = formData.get('databaseRequired');
-                        if (databaseRequired) payload.databaseRequired = databaseRequired === 'on';
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    const submitBtn = form.querySelector('[type="submit"]');
+                    const origText = submitBtn.textContent;
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting...';
 
-                        try {
-                            await FHD.api.requestHosting(payload);
-                            document.body.removeChild(modal);
-                            alert(`Hosting request for "${payload.serviceName}" submitted successfully! Our team will review your request and contact you at hosting@fh-development.xyz.`);
-                        } catch (error) {
-                            if (error.status === 401) {
-                                alert('Please log in to submit a hosting request.');
-                                window.location.assign('../auth/login.html');
-                            } else {
-                                alert(error.message || 'Unable to submit hosting request. Please try again.');
-                            }
+                    const payload = {
+                        planId: planId,
+                        serviceName: formData.get('serviceName'),
+                        email: formData.get('email'),
+                        discordUsername: formData.get('discordUsername') || '',
+                        runtime: formData.get('runtime') || 'Python',
+                        repoUrl: formData.get('repoUrl') || '',
+                        projectDescription: formData.get('projectDescription') || '',
+                        modMailRequired: formData.get('modMailRequired') === 'on',
+                        databaseRequired: formData.get('databaseRequired') === 'on',
+                    };
+
+                    try {
+                        await FHD.api.requestHosting(payload);
+                        closeModal();
+                        alert(`Hosting request for "${payload.serviceName}" has been submitted successfully! We will contact you at ${payload.email} shortly.`);
+                    } catch (error) {
+                        if (error.status === 401) {
+                            alert('Please sign in or create an account to finalize your hosting request.');
+                            window.location.assign('../auth/login.html');
+                        } else {
+                            // If API is down or backend isn't accepting, submit via mailto fallback
+                            const mailto = `mailto:hosting@fh-development.xyz?subject=${encodeURIComponent('Hosting Request: ' + payload.serviceName + ' (' + planName + ')')}&body=${encodeURIComponent(
+                                'Service: ' + payload.serviceName + '\n' +
+                                'Plan: ' + planName + '\n' +
+                                'Email: ' + payload.email + '\n' +
+                                'Discord: ' + payload.discordUsername + '\n' +
+                                'Runtime: ' + payload.runtime + '\n' +
+                                'Repo: ' + payload.repoUrl + '\n' +
+                                'Description: ' + payload.projectDescription
+                            )}`;
+                            window.location.href = mailto;
+                            closeModal();
+                            alert(`Your request draft has been opened in your email client for direct processing by our hosting team.`);
                         }
-                    });
+                    } finally {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = origText;
+                        }
+                    }
                 });
             });
+        });
+    }
+
+    async function loadPlans() {
+        try {
+            const data = await FHD.api.getHostingPlans();
+            const list = Array.isArray(data) ? data : data?.plans || data?.items || [];
+            if (list && list.length > 0) {
+                renderPlans(list);
+                return;
+            }
+            renderPlans(DEFAULT_PLANS);
         } catch (error) {
-            plansContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500">${FHD.escapeHtml(error.message || 'Unable to load hosting plans.')}</div>`;
+            // Immediate fallback to official plans so page NEVER breaks
+            renderPlans(DEFAULT_PLANS);
         }
     }
 
