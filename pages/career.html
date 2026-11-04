@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Details | FH Developments</title>
+    <meta name="description" content="View job details and apply for careers at FH Developments.">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-white font-body text-slate antialiased">
+    <div id="fhd-nav" data-active="company"></div>
+
+    <main>
+        <section class="py-16 lg:py-24 bg-[#F8FAFC]">
+            <div class="max-w-4xl mx-auto px-6">
+                <a href="careers.html" class="inline-flex items-center gap-2 text-primary font-medium mb-6 hover:underline">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Back to Careers
+                </a>
+                
+                <div id="position-loading" class="text-center py-12">
+                    <div class="spinner mx-auto mb-4"></div>
+                    <p class="text-[#64748B]">Loading position details...</p>
+                </div>
+
+                <div id="position-content" class="hidden">
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span id="position-employment-type" class="badge badge-blue"></span>
+                        <span id="position-work-mode" class="badge badge-green"></span>
+                        <span id="position-status" class="badge badge-slate"></span>
+                    </div>
+                    
+                    <h1 id="position-title" class="font-display font-black text-4xl lg:text-5xl text-[#0F172A] mb-4"></h1>
+                    
+                    <div class="flex flex-wrap gap-6 text-sm text-[#64748B] mb-8">
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            <span id="position-location"></span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            <span id="position-openings"></span>
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i data-lucide="calendar" class="w-4 h-4"></i>
+                            <span id="position-deadline"></span>
+                        </span>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-[#E2E8F0] p-8 mb-8">
+                        <h2 class="font-display font-bold text-xl text-[#0F172A] mb-4">About This Role</h2>
+                        <p id="position-description" class="text-[#475569] leading-relaxed mb-6"></p>
+                        
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-3">Responsibilities</h3>
+                        <p id="position-responsibilities" class="text-[#475569] leading-relaxed mb-6"></p>
+                        
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-3">Requirements</h3>
+                        <p id="position-requirements" class="text-[#475569] leading-relaxed mb-6"></p>
+                        
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-3">Preferred Qualifications</h3>
+                        <p id="position-preferred" class="text-[#475569] leading-relaxed mb-6"></p>
+                        
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-3">Required Skills</h3>
+                        <div id="position-skills" class="flex flex-wrap gap-2 mb-6"></div>
+                        
+                        <h3 class="font-display font-bold text-lg text-[#0F172A] mb-3">Benefits</h3>
+                        <p id="position-benefits" class="text-[#475569] leading-relaxed"></p>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <button id="apply-btn" class="btn-primary flex-1 justify-center">
+                            <i data-lucide="send"></i> Apply Now
+                        </button>
+                    </div>
+                </div>
+
+                <div id="position-error" class="hidden text-center py-12">
+                    <div class="text-6xl mb-4">😕</div>
+                    <h3 class="font-display font-bold text-2xl text-[#0F172A] mb-2">Position Not Found</h3>
+                    <p class="text-[#64748B] mb-6">This position may have been closed or removed.</p>
+                    <a href="careers.html" class="btn-primary">View All Positions</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="fhd-footer"></div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+
+    async function loadPosition() {
+        if (!slug) {
+            showPositionError();
+            return;
+        }
+
+        try {
+            const response = await fetch(`${FHD_CONFIG.API_BASE_URL}/careers/${slug}`);
+            const data = await response.json();
+            
+            if (!data.success || !data.data) {
+                showPositionError();
+                return;
+            }
+
+            const position = data.data.position;
+            const questions = data.data.questions || [];
+
+            document.getElementById('position-loading').classList.add('hidden');
+            document.getElementById('position-content').classList.remove('hidden');
+
+            document.getElementById('position-title').textContent = position.title;
+            document.getElementById('position-employment-type').textContent = position.employmentType;
+            document.getElementById('position-work-mode').textContent = position.workMode;
+            document.getElementById('position-status').textContent = position.status;
+            document.getElementById('position-location').textContent = position.location || 'Remote';
+            document.getElementById('position-openings').textContent = `${position.numberOfOpenings} opening${position.numberOfOpenings > 1 ? 's' : ''}`;
+            document.getElementById('position-deadline').textContent = position.applicationDeadline 
+                ? `Apply by ${new Date(position.applicationDeadline).toLocaleDateString()}` 
+                : 'No deadline';
+            document.getElementById('position-description').textContent = position.fullDescription || position.shortDescription || '';
+            document.getElementById('position-responsibilities').textContent = position.responsibilities || 'No specific responsibilities listed.';
+            document.getElementById('position-requirements').textContent = position.requirements || 'No specific requirements listed.';
+            document.getElementById('position-preferred').textContent = position.preferredQualifications || 'No preferred qualifications listed.';
+            document.getElementById('position-benefits').textContent = position.benefits || 'Standard benefits package.';
+
+            const skillsContainer = document.getElementById('position-skills');
+            if (position.requiredSkills && position.requiredSkills.length) {
+                skillsContainer.innerHTML = position.requiredSkills.map(skill => 
+                    `<span class="tag">${FHD.escapeHtml(skill)}</span>`
+                ).join('');
+            } else {
+                skillsContainer.innerHTML = '<span class="text-[#64748B]">No specific skills required.</span>';
+            }
+
+            // Store questions for application form
+            window.positionQuestions = questions;
+            window.positionId = position.id;
+
+            document.getElementById('apply-btn').addEventListener('click', () => {
+                window.location.href = `career-apply.html?slug=${encodeURIComponent(slug)}`;
+            });
+
+            window.lucide?.createIcons();
+        } catch (error) {
+            showPositionError();
+            console.error('Error loading position:', error);
+        }
+    }
+
+    function showPositionError() {
+        document.getElementById('position-loading').classList.add('hidden');
+        document.getElementById('position-error').classList.remove('hidden');
+    }
+
+    loadPosition();
+    </script>
+</body>
+</html>
